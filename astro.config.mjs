@@ -1,5 +1,8 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 
-// https://astro.build/config
-export default defineConfig({});
+export default defineConfig({
+  // Reemplaza <TU_USUARIO> con tu nombre de usuario real en GitHub
+  site: 'https://edfermachado.github.io',
+  base: 'human-source-code',
+});

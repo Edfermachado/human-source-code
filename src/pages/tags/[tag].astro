@@ -1,0 +1,157 @@
+---
+// src/pages/tags/[tag].astro
+import TerminalLayout from '../../layouts/TerminalLayout.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+  const allLogs = await getCollection('log');
+  
+  // 1. Filtramos sectores corruptos y borradores
+  const validLogs = allLogs.filter(log => log.data && log.data.date && !log.data.draft);
+
+  // 2. Extraemos un Set con todas las etiquetas únicas del repositorio
+  // flatMap aplana el arreglo de arreglos, Set elimina duplicados
+  const uniqueTags = [...new Set(validLogs.flatMap(log => log.data.tags || []))];
+
+  // 3. Generamos las rutas dinámicas para el compilador
+  return uniqueTags.map(tag => {
+    // Filtramos los ensayos que contienen la etiqueta actual
+    const filteredLogs = validLogs.filter(log => log.data.tags?.includes(tag));
+    
+    // Ordenamos cronológicamente
+    const sortedLogs = filteredLogs.sort((a, b) => b.data.date!.valueOf() - a.data.date!.valueOf());
+
+    return {
+      params: { tag: tag.toLowerCase() }, // La URL será en minúsculas (ej: /tags/chasis)
+      props: { logs: sortedLogs, originalTag: tag }, // Pasamos los datos filtrados a la vista
+    };
+  });
+}
+
+// 4. Capturamos las propiedades inyectadas por getStaticPaths
+interface Props {
+  logs: CollectionEntry<'log'>[];
+  originalTag: string;
+}
+
+const { tag } = Astro.params;
+const { logs, originalTag } = Astro.props;
+---
+
+<TerminalLayout title={`~/taxonomia/::${tag} - ◯ >_`}>
+  <section class="log-archive">
+    <h1>~/taxonomia/<span class="highlight">::{tag}</span></h1>
+    <p class="directory-description">
+      Registros filtrados bajo el concepto de [{originalTag}]. {logs.length} commit(s) encontrados.
+    </p>
+
+    <div class="commit-list">
+      {logs.map((log) => {
+        const dateStr = log.data.date!.toISOString().split('T')[0];
+        
+        return (
+          <article class="commit-entry">
+            <time datetime={log.data.date!.toISOString()} class="commit-date">
+              [{dateStr}]
+            </time>
+            <a href={`/log/${log.slug}`} class="commit-message">
+              {log.data.title}
+            </a>
+            <div class="commit-tags">
+              {log.data.tags?.map(t => (
+                <a href={`/tags/${t.toLowerCase()}`} class="tag">
+                  ::{t.toLowerCase()}
+                </a>
+              ))}
+            </div>
+          </article>
+        );
+      })}
+    </div>
+  </section>
+</TerminalLayout>
+
+<style>
+  /* Reutilizamos la estructura del index de logs, adaptada para la taxonomía */
+  .log-archive h1 {
+    color: var(--color-ceniza);
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    font-weight: normal;
+    font-family: var(--font-mono);
+  }
+
+  .highlight {
+    color: var(--color-liquen);
+  }
+  
+  .directory-description {
+    color: var(--color-comentario);
+    font-style: italic;
+    margin-bottom: 3rem;
+    font-size: 0.9rem;
+  }
+
+  .commit-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+
+  .commit-entry {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 1.5rem;
+    align-items: baseline;
+    padding: 0.5rem 0;
+    border-bottom: 1px dotted var(--color-superficie);
+    transition: background-color 0.2s ease;
+  }
+
+  .commit-entry:hover {
+    background-color: var(--color-superficie);
+  }
+
+  .commit-date {
+    color: var(--color-comentario);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    white-space: nowrap;
+  }
+
+  .commit-message {
+    color: var(--color-ceniza);
+    font-family: var(--font-mono);
+    text-decoration: none;
+    border-bottom: none;
+  }
+
+  .commit-message:hover {
+    color: var(--color-liquen);
+  }
+
+  .commit-tags {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .tag {
+    color: var(--color-liquen);
+    font-size: 0.8rem;
+    opacity: 0.7;
+    text-decoration: none;
+    border-bottom: none;
+  }
+
+  .tag:hover {
+    opacity: 1;
+    text-decoration: underline;
+  }
+
+  @media (max-width: 600px) {
+    .commit-entry {
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+    }
+  }
+</style>

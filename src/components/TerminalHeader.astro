@@ -1,0 +1,42 @@
+---
+// src/components/TerminalHeader.astro
+---
+<header class="terminal-header">
+  <nav>
+    <a href="/" class="logo">◯ >_</a>
+    <div class="links">
+      <a href="/log">~/log</a>
+      <a href="/tags">~/taxonomia</a>
+      <a href="/chasis">~/chasis</a>
+      <a href="/quirofano">~/quirofano</a>
+    </div>
+  </nav>
+</header>
+
+<style>
+  .terminal-header {
+    padding: 2rem 1rem;
+    max-width: 800px;
+    margin: 0 auto;
+    width: 100%;
+    border-bottom: 1px dashed var(--color-comentario);
+  }
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .logo {
+    font-weight: bold;
+    color: var(--color-liquen);
+    font-size: 1.2rem;
+    border-bottom: none; /* Quitamos el subrayado del hover general */
+  }
+  .links {
+    display: flex;
+    gap: 1.5rem;
+  }
+  .links a {
+    font-size: 0.9rem;
+  }
+</style>

@@ -1,0 +1,63 @@
+/* src/styles/global.css */
+
+/* Variables Globales: Paleta "Abismo Secuencial" 
+  Cero ruido. Alto contraste cognitivo, bajo contraste visual.
+*/
+:root {
+  --color-vacuo: #0D1115;     /* Fondo principal */
+  --color-superficie: #1A212A; /* Bloques, código, citas */
+  --color-ceniza: #C2CBD2;     /* Texto primario (Ensayos) */
+  --color-comentario: #7A8895; /* Metadatos, fechas, etiquetas */
+  --color-liquen: #8FBCBB;     /* Acentos (Isotipo, hover) */
+
+  /* Tipografías */
+  --font-mono: 'Courier New', Courier, monospace; /* Interfaz, navegación */
+  --font-serif: 'Georgia', 'Times New Roman', serif; /* Lectura profunda */
+}
+
+/* Reset Brutalista */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--color-vacuo);
+  color: var(--color-ceniza);
+  font-family: var(--font-mono);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Selección de texto */
+::selection {
+  background-color: var(--color-liquen);
+  color: var(--color-vacuo);
+}
+
+/* Enlaces sin decoraciones ruidosas */
+a {
+  color: var(--color-ceniza);
+  text-decoration: none;
+  border-bottom: 1px solid var(--color-comentario);
+  transition: all 0.2s ease;
+}
+
+a:hover {
+  color: var(--color-liquen);
+  border-bottom-color: var(--color-liquen);
+}
+
+/* Contenedor principal que limita el ancho para una lectura óptima */
+main {
+  flex: 1;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}

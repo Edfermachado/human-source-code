@@ -1,0 +1,24 @@
+---
+// src/pages/log/[slug].astro
+import { getCollection } from 'astro:content';
+import EssayLayout from '../../layouts/EssayLayout.astro';
+
+// 1. getStaticPaths: Le dice a Astro qué páginas pre-renderizar en tiempo de compilación.
+// Es como echar la base antialcalina antes de pintar; deja todo sólido y listo.
+export async function getStaticPaths() {
+  const logEntries = await getCollection('log');
+  
+  return logEntries.map(entry => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+// 2. Extraemos el ensayo correspondiente a la URL actual
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+---
+
+<EssayLayout frontmatter={entry.data}>
+  <Content />
+</EssayLayout>

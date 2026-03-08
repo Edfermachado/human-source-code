@@ -1,0 +1,101 @@
+---
+// src/layouts/EssayLayout.astro
+import TerminalLayout from './TerminalLayout.astro';
+
+// 1. Ampliamos el contrato estricto. 
+// Ahora TypeScript sabe que los datos pueden venir en la raíz o dentro de frontmatter.
+interface Props {
+  title?: string;
+  date?: Date | string;
+  tags?: string[];
+  frontmatter?: {
+    title?: string;
+    date?: Date | string;
+    tags?: string[];
+  };
+}
+
+// 2. Extraemos de forma segura resolviendo el conflicto de tipos
+const { title, date, tags } = Astro.props.frontmatter || Astro.props;
+
+// 3. Formateamos la fecha con fallback en caso de sectores vacíos
+const formattedDate = date ? new Date(date).toISOString().split('T')[0] : 'YYYY-MM-DD';
+---
+
+<TerminalLayout title={`${title || 'Sector Vacío'} - ◯ >_`}>
+  <article class="essay-container">
+    <header class="essay-meta">
+      <h1>{title || '>> [ERROR: TÍTULO NO ENCONTRADO]'}</h1>
+      <div class="metadata">
+        <span class="date">[{formattedDate}]</span>
+        <span class="tags">
+          {tags?.map((tag: string) => (
+            <span class="tag">::{tag.toLowerCase()}</span>
+          ))}
+        </span>
+      </div>
+    </header>
+    
+    <div class="essay-content">
+      <slot />
+    </div>
+  </article>
+</TerminalLayout>
+
+<style>
+  .essay-container {
+    max-width: 650px; /* Ancho óptimo para lectura continua, evita fatiga visual */
+    margin: 0 auto;
+    padding-top: 2rem;
+  }
+  .essay-meta {
+    margin-bottom: 3rem;
+    border-bottom: 1px solid var(--color-superficie);
+    padding-bottom: 1rem;
+  }
+  .essay-meta h1 {
+    font-family: var(--font-mono); /* El título mantiene la rigidez técnica */
+    color: var(--color-ceniza);
+    font-size: 1.8rem;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+  .metadata {
+    font-family: var(--font-mono);
+    color: var(--color-comentario);
+    font-size: 0.85rem;
+    display: flex;
+    gap: 1rem;
+  }
+  .tag {
+    color: var(--color-liquen);
+    margin-right: 0.5rem;
+  }
+  
+  /* Aquí ocurre el cambio de contexto: de la terminal al libro */
+  .essay-content {
+    font-family: var(--font-serif);
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: var(--color-ceniza);
+  }
+  
+  /* Brutalismo tipográfico: sin adornos, solo jerarquía pura */
+  .essay-content :global(p) {
+    margin-bottom: 1.5rem;
+  }
+  .essay-content :global(h2), .essay-content :global(h3) {
+    font-family: var(--font-mono);
+    color: var(--color-liquen);
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    font-weight: normal;
+  }
+  .essay-content :global(blockquote) {
+    border-left: 2px solid var(--color-liquen);
+    padding-left: 1rem;
+    margin-left: 0;
+    font-style: italic;
+    color: var(--color-comentario);
+  }
+</style>

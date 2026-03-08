@@ -1,29 +1,15 @@
 ---
 // src/pages/log/index.astro
-import TerminalLayout from '../layouts/TerminalLayout.astro';
-import { getCollection, type CollectionEntry } from 'astro:content';
+import TerminalLayout from '../../layouts/TerminalLayout.astro';
+import { getCollection } from 'astro:content';
 
+// 1. Consultar la colección completa de ensayos
 const allLogs = await getCollection('log');
 
-// 1. Manejo defensivo: Separamos los archivos íntegros de los corruptos/vacíos
-const validLogs: CollectionEntry<'log'>[] = [];
-const corruptSectors: CollectionEntry<'log'>[] = [];
-
-allLogs.forEach(log => {
-  // Verificamos que el objeto data y la propiedad date existan antes de operar
-  if (log.data && log.data.date) {
-    if (!log.data.draft) {
-      validLogs.push(log);
-    }
-  } else {
-    corruptSectors.push(log);
-    // Lanzamos un aviso en tu terminal de Debian sin romper la compilación
-    console.warn(`[DIAGNÓSTICO] Sector corrupto o vacío detectado: ~/log/${log.slug || log.id}`);
-  }
-});
-
-// 2. Ordenamos con seguridad solo los registros válidos
-const publishedLogs = validLogs.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+// 2. Filtrar borradores (si los hay) y ordenar cronológicamente (más reciente primero)
+const publishedLogs = allLogs
+  .filter(log => !log.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
 
 <TerminalLayout title="~/log - ◯ >_">
@@ -35,6 +21,7 @@ const publishedLogs = validLogs.sort((a, b) => b.data.date.valueOf() - a.data.da
 
     <div class="commit-list">
       {publishedLogs.map((log) => {
+        // Formatear fecha a YYYY-MM-DD
         const dateStr = log.data.date.toISOString().split('T')[0];
         
         return (
@@ -46,7 +33,7 @@ const publishedLogs = validLogs.sort((a, b) => b.data.date.valueOf() - a.data.da
               {log.data.title}
             </a>
             <div class="commit-tags">
-              {log.data.tags?.map(tag => (
+              {log?.data.tags?.map(tag => (
                 <span class="tag">::{tag.toLowerCase()}</span>
               ))}
             </div>
@@ -54,17 +41,6 @@ const publishedLogs = validLogs.sort((a, b) => b.data.date.valueOf() - a.data.da
         );
       })}
     </div>
-
-    {corruptSectors.length > 0 && (
-      <div class="system-warning">
-        <p class="warning-title">>> [WARN] Sectores de memoria sin formatear detectados:</p>
-        <ul>
-          {corruptSectors.map(sector => (
-            <li>./{sector.id} (Falta frontmatter o esquema inválido)</li>
-          ))}
-        </ul>
-      </div>
-    )}
   </section>
 </TerminalLayout>
 
@@ -91,13 +67,14 @@ const publishedLogs = validLogs.sort((a, b) => b.data.date.valueOf() - a.data.da
 
   .commit-entry {
     display: grid;
+    /* Grid que simula columnas de una terminal: Fecha | Título | Etiquetas */
     grid-template-columns: auto 1fr auto;
     gap: 1.5rem;
     align-items: baseline;
     padding: 0.5rem 0;
     border-bottom: 1px dotted var(--color-superficie);
     transition: background-color 0.2s ease;
-  }src/pages/tags/index.astro
+  }
 
   .commit-entry:hover {
     background-color: var(--color-superficie);
@@ -112,7 +89,7 @@ const publishedLogs = validLogs.sort((a, b) => b.data.date.valueOf() - a.data.da
 
   .commit-message {
     color: var(--color-ceniza);
-    font-family: var(--font-mono);
+    font-family: var(--font-mono); /* Mantenemos el índice en monoespaciado */
     text-decoration: none;
     border-bottom: none;
   }
@@ -131,28 +108,8 @@ const publishedLogs = validLogs.sort((a, b) => b.data.date.valueOf() - a.data.da
     font-size: 0.8rem;
     opacity: 0.7;
   }
-
-  /* Estilos para el bloque de diagnóstico de errores */
-  .system-warning {
-    margin-top: 4rem;
-    padding: 1rem;
-    border-left: 2px solid #D08770; /* Un tono óxido sutil para alertas */
-    background-color: var(--color-superficie);
-    font-family: var(--font-mono);
-    font-size: 0.85rem;
-    color: var(--color-comentario);
-  }
-
-  .warning-title {
-    color: #D08770;
-    margin-bottom: 0.5rem;
-  }
-
-  .system-warning ul {
-    list-style-type: none;
-    padding-left: 1rem;
-  }
-
+  
+  /* Responsividad básica para pantallas pequeñas */
   @media (max-width: 600px) {
     .commit-entry {
       grid-template-columns: 1fr;

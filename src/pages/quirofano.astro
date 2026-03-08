@@ -1,0 +1,152 @@
+---
+// src/pages/quirofano.astro
+import TerminalLayout from '../layouts/TerminalLayout.astro';
+
+// Configuramos la plantilla de correo de alta fricción
+const email = "tu_correo@ejemplo.com"; // <-- REEMPLAZA ESTO
+const subject = encodeURIComponent("[Peer Review] Disección de Ensayo: ");
+const bodyTemplate = encodeURIComponent(`>> IDENTIFICACIÓN DEL NODO
+Ensayo analizado: [Inserta el título o la URL aquí]
+
+>> NATURALEZA DE LA INTERVENCIÓN (Marca con una X)
+[ ] Refutación lógica o filosófica
+[ ] Disonancia cognitiva detectada
+[ ] Expansión del concepto / Bibliografía recomendada
+[ ] Corrección de arquitectura de software/datos
+
+>> DISECCIÓN ARGUMENTADA
+[Expón tu crítica de forma directa y estructurada. Ve al hueso. La validación vacía será descartada; busco fricción que mejore el chasis.]
+
+`);
+
+const mailtoLink = `mailto:${email}?subject=${subject}&body=${bodyTemplate}`;
+---
+
+<TerminalLayout title="~/quirofano - ◯ >_">
+  <section class="operating-room">
+    <h1>~/quirofano</h1>
+    <p class="directory-description">
+      Sala de revisión por pares. Espacio estéril para la refactorización de ideas mediante fricción externa.
+    </p>
+
+    <div class="manifesto-content">
+      <p class="lead">
+        El código fuente escrito en aislamiento tiende a la entropía. Un sistema cerrado no puede detectar sus propios puntos ciegos sin someterse a pruebas de estrés externas.
+      </p>
+
+      <h2>>> Reglas de Intervención (Peer Review)</h2>
+      <p>
+        Este espacio no está diseñado para el halago, ni para la caja de comentarios rápida impulsada por dopamina. Si un texto ha generado fricción en tu propio sistema, o si detectas una falla en la lógica de mi arquitectura, te invito a diseccionarlo.
+      </p>
+
+      <ul class="protocol-list">
+        <li><span class="keyword">[Rigor]</span> Argumenta contra la idea, no contra el autor.</li>
+        <li><span class="keyword">[Síntesis]</span> Mantén la entropía baja. Sé directo.</li>
+        <li><span class="keyword">[Kaizen]</span> El objetivo de la crítica debe ser la refactorización y la mejora continua del concepto original.</li>
+      </ul>
+
+      <div class="friction-gate">
+        <p class="warning-text">>> ADVERTENCIA: La siguiente acción abrirá una interfaz de comunicación directa. Se requiere estructurar el mensaje según el protocolo establecido.</p>
+        
+        <a href={mailtoLink} class="btn-execute">
+          <span class="prompt">$</span> ./iniciar_diseccion.sh
+        </a>
+      </div>
+    </div>
+  </section>
+</TerminalLayout>
+
+<style>
+  .operating-room h1 {
+    color: var(--color-ceniza);
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    font-weight: normal;
+    font-family: var(--font-mono);
+  }
+  
+  .directory-description {
+    color: var(--color-comentario);
+    font-style: italic;
+    margin-bottom: 3rem;
+    font-size: 0.9rem;
+  }
+
+  .manifesto-content {
+    font-family: var(--font-serif);
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: var(--color-ceniza);
+    max-width: 650px;
+  }
+
+  .lead {
+    font-size: 1.25rem;
+    border-left: 2px solid var(--color-liquen);
+    padding-left: 1rem;
+    margin-bottom: 2rem;
+    color: var(--color-ceniza);
+  }
+
+  .manifesto-content h2 {
+    font-family: var(--font-mono);
+    color: var(--color-liquen);
+    font-size: 1.2rem;
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+    font-weight: normal;
+  }
+
+  .protocol-list {
+    list-style-type: none;
+    padding-left: 0;
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+  }
+
+  .protocol-list li {
+    margin-bottom: 1rem;
+    color: var(--color-ceniza);
+  }
+
+  .keyword {
+    color: var(--color-comentario);
+  }
+
+  /* Diseño de la Puerta de Alta Fricción */
+  .friction-gate {
+    margin-top: 4rem;
+    padding: 1.5rem;
+    background-color: var(--color-superficie);
+    border: 1px solid var(--color-comentario);
+  }
+
+  .warning-text {
+    font-family: var(--font-mono);
+    color: #D08770; /* Tono óxido/alerta */
+    font-size: 0.85rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .btn-execute {
+    display: inline-block;
+    background-color: var(--color-vacuo);
+    color: var(--color-ceniza);
+    font-family: var(--font-mono);
+    padding: 0.75rem 1.5rem;
+    border: 1px solid var(--color-liquen);
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .btn-execute:hover {
+    background-color: var(--color-liquen);
+    color: var(--color-vacuo);
+    border-color: var(--color-liquen);
+  }
+
+  .btn-execute .prompt {
+    color: inherit;
+    font-weight: bold;
+  }
+</style>

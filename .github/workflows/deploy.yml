@@ -1,0 +1,44 @@
+name: Deploy to GitHub Pages
+
+# 1. Cuándo se ejecuta esta acción
+on:
+  # Disparar automáticamente en cada commit a la rama principal
+  push:
+    branches: [ main ]
+  # Permitir ejecución manual desde la interfaz de GitHub
+  workflow_dispatch:
+
+# 2. Permisos estandarizados para leer el código y escribir en Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 3. Optimización: Cancelar compilaciones en curso si haces push muy rápido
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+# 4. Los trabajos de la máquina
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install, build, and upload your site
+        uses: withastro/action@v3
+        # Esta acción oficial de Astro instala Node.js, ejecuta 'npm ci', 
+        # hace el 'npm run build' y prepara los artefactos automáticamente.
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,129 @@
+---
+// src/pages/chasis.astro
+import TerminalLayout from '../layouts/TerminalLayout.astro';
+---
+
+<TerminalLayout title="~/chasis - ◯ >_">
+  <section class="hardware-specs">
+    <h1>~/chasis</h1>
+    <p class="directory-description">
+      Especificaciones del hardware físico. Protocolos de tensión, mantenimiento y confirmación empírica.
+    </p>
+
+    <div class="manifesto-content">
+      <p class="lead">
+        El límite del cuerpo no es una métrica teórica; es una frontera que exige ser tocada para comprobar su existencia. El software de la mente requiere un contenedor que soporte la fricción.
+      </p>
+
+      <h2>>> Diagnóstico de Durabilidad</h2>
+      <p>
+        El dolor derivado del esfuerzo físico intenso no es un fin en sí mismo, sino un medio de confirmación empírica. Es la prueba de estrés que certifica la resistencia de los materiales. Cuando los músculos dictan "basta", se ha alcanzado el límite operativo del día.
+      </p>
+
+      <h2>>> Protocolos Activos</h2>
+      <ul class="protocol-list">
+        <li>
+          <span class="keyword">[Tensión y Memoria]</span> Carga repetitiva bajo el propio peso. El músculo compila y graba la instrucción antes de que la mente logre racionalizarla.
+        </li>
+        <li>
+          <span class="keyword">[Rango Operativo]</span> Facilitación Neuromuscular Propioceptiva (FNP / PNF). Hackear el reflejo miotático para expandir la flexibilidad y el rango de movimiento del chasis sin comprometer las articulaciones.
+        </li>
+        <li>
+          <span class="keyword">[Fricción Manual]</span> Trabajo de impacto en el entorno físico. La repetición abrasiva (lijar, preparar superficies, aplicar fondos). Agotar la energía cinética en la materia externa para silenciar el ruido interno.
+        </li>
+      </ul>
+
+      <div class="system-status">
+        <p><span class="prompt">root@chasis:~#</span> dmesg | grep "hardware limits"</p>
+        <p class="output">[OK] Estructura sometida a carga térmica y mecánica.</p>
+        <p class="output">[OK] Regeneración de fibras en proceso. Esperando próximo ciclo.</p>
+      </div>
+    </div>
+  </section>
+</TerminalLayout>
+
+<style>
+  .hardware-specs h1 {
+    color: var(--color-ceniza);
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    font-weight: normal;
+    font-family: var(--font-mono);
+  }
+  
+  .directory-description {
+    color: var(--color-comentario);
+    font-style: italic;
+    margin-bottom: 3rem;
+    font-size: 0.9rem;
+  }
+
+  .manifesto-content {
+    font-family: var(--font-serif);
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: var(--color-ceniza);
+    max-width: 650px;
+  }
+
+  .lead {
+    font-size: 1.25rem;
+    border-left: 2px solid var(--color-liquen);
+    padding-left: 1rem;
+    margin-bottom: 2rem;
+    color: var(--color-ceniza);
+  }
+
+  .manifesto-content h2 {
+    font-family: var(--font-mono);
+    color: var(--color-liquen);
+    font-size: 1.2rem;
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+    font-weight: normal;
+  }
+
+  .protocol-list {
+    list-style-type: none;
+    padding-left: 0;
+  }
+
+  .protocol-list li {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px dotted var(--color-superficie);
+  }
+
+  .protocol-list li:last-child {
+    border-bottom: none;
+  }
+
+  .keyword {
+    font-family: var(--font-mono);
+    color: var(--color-comentario);
+    display: block;
+    margin-bottom: 0.3rem;
+    font-size: 0.9rem;
+  }
+
+  .system-status {
+    margin-top: 4rem;
+    padding: 1.5rem;
+    background-color: var(--color-superficie);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+  }
+
+  .prompt {
+    color: #D08770; /* Color terminal root */
+    font-weight: bold;
+    margin-right: 0.5rem;
+  }
+
+  .output {
+    color: var(--color-comentario);
+    margin-top: 0.5rem;
+    padding-left: 1rem;
+    border-left: 1px solid var(--color-comentario);
+  }
+</style>
