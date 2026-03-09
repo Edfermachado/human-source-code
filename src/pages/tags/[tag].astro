@@ -2,7 +2,9 @@
 // src/pages/tags/[tag].astro
 import TerminalLayout from '../../layouts/TerminalLayout.astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
-const base = import.meta.env.BASE_URL;
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
 
 export async function getStaticPaths() {
   const allLogs = await getCollection('log');
@@ -55,12 +57,12 @@ const { logs, originalTag } = Astro.props;
             <time datetime={log.data.date!.toISOString()} class="commit-date">
               [{dateStr}]
             </time>
-            <a href={`${base}log/${log.slug}`} class="commit-message">
+            <a href={`${base}/log/${log.slug}`} class="commit-message">
               {log.data.title}
             </a>
             <div class="commit-tags">
               {log.data.tags?.map(t => (
-                <a href={`${base}tags/${t.toLowerCase()}`} class="tag">
+                <a href={`${base}/tags/${t.toLowerCase()}`} class="tag">
                   ::{t.toLowerCase()}
                 </a>
               ))}
