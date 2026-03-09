@@ -1,54 +1,56 @@
 ---
 // src/layouts/EssayLayout.astro
-import TerminalLayout from "./TerminalLayout.astro";
+import TerminalLayout from './TerminalLayout.astro';
 
-// 1. Ampliamos el contrato estricto.
-// Ahora TypeScript sabe que los datos pueden venir en la raíz o dentro de frontmatter.
 interface Props {
   title?: string;
-  date?: Date | string;
+  date?: Date | string | null; // Permitimos null para tratarlo como 'lost'
   tags?: string[];
+  rawContent?: string; // <-- Recibimos el texto crudo para la exportación
   frontmatter?: {
     title?: string;
-    date?: Date | string;
+    date?: Date | string | null;
     tags?: string[];
   };
 }
 
-// 2. Extraemos de forma segura resolviendo el conflicto de tipos
 const { title, date, tags } = Astro.props.frontmatter || Astro.props;
+const rawContent = Astro.props.rawContent || '';
 
-// 3. Formateamos la fecha con fallback en caso de sectores vacíos
-const formattedDate = date
-  ? new Date(date).toISOString().split("T")[0]
-  : "YYYY-MM-DD";
+// Si la fecha es nula, la tratamos como 'lost' visualmente
+const formattedDate = date ? new Date(date).toISOString().split('T')[0] : 'lost';
 ---
 
-<TerminalLayout title={`${title || "Sector Vacío"} - ◯ >_`}>
+<TerminalLayout title={`${title || 'Sector Vacío'} - ◯ >_`}>
   <article class="essay-container">
     <header class="essay-meta">
-      <h1>{title || ">> [ERROR: TÍTULO NO ENCONTRADO]"}</h1>
+      <div class="title-row">
+        <h1>{title || '>> [ERROR: TÍTULO NO ENCONTRADO]'}</h1>
+        <button class="export-btn" data-title={title} data-text={rawContent}>[exportar]</button>
+      </div>
       <div class="metadata">
         <span class="date">[{formattedDate}]</span>
         <span class="tags">
-          {
-            tags?.map((tag: string) => (
-              <span class="/tag">::{tag.toLowerCase()}</span>
-            ))
-          }
+          {tags?.map((tag: string) => (
+            <span class="tag">::{tag.toLowerCase()}</span>
+          ))}
         </span>
       </div>
     </header>
-
+    
     <div class="essay-content">
       <slot />
+    </div>
+
+    <div class="essay-footer">
+      <span class="footer-note">> Edfermachado</span>
     </div>
   </article>
 </TerminalLayout>
 
 <style>
   .essay-container {
-    max-width: 650px; /* Ancho óptimo para lectura continua, evita fatiga visual */
+    max-width: 650px;
     margin: 0 auto;
     padding-top: 2rem;
   }
@@ -57,13 +59,39 @@ const formattedDate = date
     border-bottom: 1px solid var(--color-superficie);
     padding-bottom: 1rem;
   }
+
+  /* Flexbox para alinear el título y el botón de exportación */
+  .title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
   .essay-meta h1 {
-    font-family: var(--font-mono); /* El título mantiene la rigidez técnica */
+    font-family: var(--font-mono);
     color: var(--color-ceniza);
     font-size: 1.8rem;
     line-height: 1.2;
-    margin-bottom: 1rem;
+    margin-bottom: 0;
   }
+
+  .export-btn {
+    background: none;
+    border: none;
+    color: var(--color-liquen);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  .export-btn:hover {
+    color: var(--color-ceniza);
+  }
+
   .metadata {
     font-family: var(--font-mono);
     color: var(--color-comentario);
@@ -75,21 +103,18 @@ const formattedDate = date
     color: var(--color-liquen);
     margin-right: 0.5rem;
   }
-
-  /* Aquí ocurre el cambio de contexto: de la terminal al libro */
+  
   .essay-content {
     font-family: var(--font-serif);
     font-size: 1.15rem;
     line-height: 1.8;
     color: var(--color-ceniza);
   }
-
-  /* Brutalismo tipográfico: sin adornos, solo jerarquía pura */
+  
   .essay-content :global(p) {
     margin-bottom: 1.5rem;
   }
-  .essay-content :global(h2),
-  .essay-content :global(h3) {
+  .essay-content :global(h2), .essay-content :global(h3) {
     font-family: var(--font-mono);
     color: var(--color-liquen);
     margin-top: 2.5rem;
@@ -104,46 +129,102 @@ const formattedDate = date
     color: var(--color-comentario);
   }
 
-  /* Responsividad para Lectura en Móvil */
-  @media (max-width: 600px) {
-    .essay-meta h1 {
-      font-size: 1.5rem; /* Reducimos impacto visual del título */
-    }
-    .metadata {
-      flex-direction: column; /* Apilamos fecha y etiquetas */
-      gap: 0.5rem;
-    }
-    .essay-content {
-      font-size: 1.05rem; /* Ajuste sutil para evitar fatiga en pantallas estrechas */
-    }
-  }
-
-  /* Tratamiento de imágenes inyectadas (Universal para Mobile y Desktop) */
   .essay-content :global(img) {
-    max-width: 100%; /* Evita que la imagen desborde el contenedor del ensayo */
+    max-width: 100%;
     height: auto;
     display: block;
-    margin: 2.5rem auto; /* Espaciado generoso arriba y abajo, centrado horizontal */
-    
-    /* El marco técnico brutalista */
-    border: 1px solid var(--color-comentario); 
+    margin: 2.5rem auto;
+    border: 1px solid var(--color-comentario);
     background-color: var(--color-superficie);
-    padding: 0.5rem; 
-    
-    /* Pequeño toque visual: un ligero redondeo técnico y sombra para separar del fondo */
+    padding: 0.5rem;
     border-radius: 2px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
   }
 
-  /* Si inyectas un pie de foto usando sintaxis HTML (<figure><figcaption>) */
   .essay-content :global(figcaption) {
     text-align: center;
     font-family: var(--font-mono);
     font-size: 0.85rem;
     color: var(--color-comentario);
-    margin-top: -1.5rem; /* Sube el texto para acercarlo al marco de la imagen */
+    margin-top: -1.5rem;
     margin-bottom: 2.5rem;
     font-style: italic;
   }
-  
+
+  /* Estética de la firma */
+  .essay-footer {
+    margin-top: 4rem;
+    padding-top: 1rem;
+    border-top: 1px dashed var(--color-superficie);
+    text-align: right;
+  }
+
+  .footer-note {
+    font-family: var(--font-mono);
+    color: var(--color-comentario);
+    font-size: 0.95rem;
+    font-style: italic;
+    opacity: 0.8;
+  }
+
+  @media (max-width: 600px) {
+    .essay-meta h1 {
+      font-size: 1.5rem;
+    }
+    .metadata {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .essay-content {
+      font-size: 1.05rem;
+    }
+    .title-row {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+  }
 </style>
+
+<script>
+  // El script de exportación para los ensayos
+  document.addEventListener('DOMContentLoaded', () => {
+    // Forzamos el tipado HTMLElement como en los dump para evitar errores
+    const exportBtn = document.querySelector<HTMLElement>('.export-btn');
+
+    if (exportBtn) {
+      exportBtn.addEventListener('click', async () => {
+        const title = exportBtn.getAttribute('data-title') || 'Ensayo';
+        const rawText = exportBtn.getAttribute('data-text') || '';
+        
+        // Formateamos el payload de la disección
+        const payload = `>> [LOG: ${title.toUpperCase()}]\n\n${rawText.trim()}\n\n> Edfermachado\n${window.location.href}`;
+
+        if (navigator.share) {
+          try {
+            await navigator.share({
+              title: title,
+              text: payload,
+            });
+          } catch (err) {
+            console.log('Exportación de ensayo cancelada.');
+          }
+        } else {
+          try {
+            await navigator.clipboard.writeText(payload);
+            const originalText = exportBtn.textContent;
+            exportBtn.textContent = '[copiado]';
+            exportBtn.style.color = 'var(--color-ceniza)';
+            
+            setTimeout(() => {
+              exportBtn.textContent = originalText;
+              exportBtn.style.color = 'var(--color-liquen)';
+            }, 2000);
+          } catch (err) {
+            console.error('Fallo al exportar el registro:', err);
+          }
+        }
+      });
+    }
+  });
+</script>
