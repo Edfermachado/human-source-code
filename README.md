@@ -1,43 +1,38 @@
-# Astro Starter Kit: Minimal
+# ◯ >_ human-source-code
 
-```sh
-npm create astro@latest -- --template minimal
-```
+[![Deploy to GitHub Pages](https://github.com/Edfermachado/human-source-code/actions/workflows/deploy.yml/badge.svg)](https://github.com/Edfermachado/human-source-code/actions/workflows/deploy.yml)
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+> Registro de mantenimiento rutinario y reconstrucción de la máquina. Un volcado de memoria para la confirmación empírica de la durabilidad del chasis físico y la refactorización del código mental.
 
-## 🚀 Project Structure
+## >> Arquitectura del Sistema
 
-Inside of your Astro project, you'll see the following folders and files:
+Este espacio es un entorno estéril de "Cero Ruido". Construido bajo los principios del Brutalismo Web y el Minimalismo Zen, elimina el JavaScript del lado del cliente, los comentarios efímeros y las métricas de vanidad. El contenido y la estructura desnuda son absolutos.
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+Desde el cálculo de probabilidades frente a la incertidumbre, hasta la fricción del trabajo manual y el agotamiento muscular; aquí se compilan reflexiones sobre la resistencia y el estoicismo práctico. El mantenimiento del hardware y del software humano tratados como una sola disciplina.
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+### Stack Tecnológico
+- **Motor:** [Astro](https://astro.build/) (Generación Estática SSG).
+- **Tipado & Validación:** TypeScript + Zod (Para forzar el rigor en el *frontmatter* de los ensayos).
+- **Estilos:** CSS puro. Variables nativas. Paleta "Abismo Secuencial".
+- **Despliegue (CI/CD):** GitHub Actions -> GitHub Pages. Compilación inmutable en cada *commit*.
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+---
 
-Any static assets, like images, can be placed in the `public/` directory.
+## >> Topología del Repositorio
 
-## 🧞 Commands
+La navegación simula la exploración de un sistema de archivos UNIX limpio:
 
-All commands are run from the root of the project, from a terminal:
+* **`~/log`**: Registro cronológico de ensayos estructurado como un historial de *commits*.
+* **`~/taxonomia`**: Índice de filtrado estricto bajo conceptos clave:
+  * `::kaizen` (Mejora continua y protocolos iterativos).
+  * `::kairós` (El tiempo cualitativo y oportuno).
+  * `::mōría` / `::filaucía` (Reflexiones sobre la necedad o el amor propio).
+* **`~/chasis`**: Especificaciones del hardware físico. Protocolos de tensión, rangos operativos, memoria muscular y confirmación empírica mediante el estrés de los materiales.
+* **`~/quirofano`**: Sala de revisión por pares (*Peer Review*). Un mecanismo de alta fricción para recibir críticas argumentadas y disecciones lógicas.
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+---
 
-## 👀 Want to learn more?
+## >> Protocolo de Intervención (Peer Review)
+Si detectas una disonancia cognitiva en los registros o una falla en la arquitectura del pensamiento expuesto, somételo a estrés.
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+No se buscan halagos ni validación vacía. Cualquier intento de refutación debe dirigirse al hueso del argumento, operando bajo el rigor del Quirófano. El objetivo de la fricción externa es mejorar el sistema.
