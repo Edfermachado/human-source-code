@@ -2,6 +2,7 @@
 // src/pages/log/index.astro
 import TerminalLayout from "../../layouts/TerminalLayout.astro";
 import { getCollection } from "astro:content";
+import { slugify } from "../../utils/slugify";
 const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 // 1. Consultar la colección completa de ensayos
 const allLogs = await getCollection("log");
@@ -34,8 +35,8 @@ const publishedLogs = allLogs
                 {log.data.title}
               </a>
               <div class="commit-tags">
-                {log?.data.tags?.map((tag) => (
-                  <span class="tag">::{tag.toLowerCase()}</span>
+                {log.data.tags?.map((tag) => (
+                  <span class="tag">::{tag}</span>
                 ))}
               </div>
             </article>

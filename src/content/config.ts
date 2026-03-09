@@ -8,14 +8,7 @@ const logCollection = defineCollection({
     title: z.string().max(100, "El título debe ser conciso."),
     date: z.date(),
     // Tipado estricto: Solo permitimos estas etiquetas exactas.
-    tags: z.array(
-      z.enum([
-        'Kaizen', 
-        'Kairós', 
-        'Mōría', 
-        'Filaucía', 
-        'Chasis'
-      ])
+    tags: z.array(z.string()
     ).optional(),
     draft: z.boolean().default(false),
     summary: z.string().max(200).optional(),

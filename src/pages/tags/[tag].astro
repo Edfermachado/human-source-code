@@ -2,43 +2,38 @@
 // src/pages/tags/[tag].astro
 import TerminalLayout from "../../layouts/TerminalLayout.astro";
 import { getCollection, type CollectionEntry } from "astro:content";
+import { slugify } from "../../utils/slugify"; // 1. Importamos la herramienta
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 
 export async function getStaticPaths() {
   const allLogs = await getCollection("log");
 
-  // 1. Filtramos sectores corruptos y borradores
   const validLogs = allLogs.filter(
     (log) => log.data && log.data.date && !log.data.draft,
   );
 
-  // 2. Extraemos un Set con todas las etiquetas únicas del repositorio
-  // flatMap aplana el arreglo de arreglos, Set elimina duplicados
   const uniqueTags = [
     ...new Set(validLogs.flatMap((log) => log.data.tags || [])),
   ];
 
-  // 3. Generamos las rutas dinámicas para el compilador
   return uniqueTags.map((tag) => {
-    // Filtramos los ensayos que contienen la etiqueta actual
     const filteredLogs = validLogs.filter((log) =>
       log.data.tags?.includes(tag),
     );
-
-    // Ordenamos cronológicamente
     const sortedLogs = filteredLogs.sort(
       (a, b) => b.data.date!.valueOf() - a.data.date!.valueOf(),
     );
 
     return {
-      params: { tag: tag.toLowerCase() }, // La URL será en minúsculas (ej: /tags/chasis)
-      props: { logs: sortedLogs, originalTag: tag }, // Pasamos los datos filtrados a la vista
+      // 2. La URL del navegador usará la versión esterilizada (ej: dinamicas-de-poder)
+      params: { tag: slugify(tag) },
+      // 3. Pasamos el tag original sin alterar para la interfaz visual
+      props: { logs: sortedLogs, originalTag: tag },
     };
   });
 }
 
-// 4. Capturamos las propiedades inyectadas por getStaticPaths
 interface Props {
   logs: CollectionEntry<"log">[];
   originalTag: string;
@@ -70,11 +65,14 @@ const { logs, originalTag } = Astro.props;
                 {log.data.title}
               </a>
               <div class="commit-tags">
-                {log.data.tags?.map((t) => (
-                  <a href={`${base}/tags/${t.toLowerCase()}`} class="tag">
-                    ::{t.toLowerCase()}
-                  </a>
-                ))}
+                {log.data.tags?.map((t) => {
+                  const cleanTag = slugify(t);
+                  return (
+                    <a href={`${base}/tags/${cleanTag}`} class="tag">
+                      ::{t}
+                    </a>
+                  );
+                })}
               </div>
             </article>
           );

@@ -1,0 +1,23 @@
+---
+title: "Sobre el dolor"
+date: 2026-03-08
+tags: ["Dolor", "Separatidad", "Introspección"]
+draft: false
+summary: "Análisis autobiográfico sobre cómo el dolor físico actuó como un mecanismo de defensa y silencio mental para combatir la separatidad."
+---
+
+## Sobre el dolor
+
+Ya todos conocen, espero, lo que es la separatidad definida por Fromm. Daré por hecho que lo saben y, si no, es estrictamente necesario el conocimiento pleno de esta idea para el correcto entendimiento de las posteriores palabras.
+
+Ahora bien, una de las curas de la separatidad es, como bien definí en su momento, el amor propio; pero amarse a uno mismo es una tarea monumentalmente difícil, por no decir compleja, y de la que raramente uno es consciente de lo que implica. No definiré en este ensayo todo lo que conlleva el amor propio, pero un «parche», por llamarlo de alguna manera, para la separatidad antes de conocer el amor propio, para mí, no era más que el dolor.
+
+Antes de explicar el porqué del dolor, hay que diseccionar un poco lo que fue mi mente en su momento. Para alguien con una gran cantidad de consciencia en sí mismo, la vida no era más que un peso. Pensaba y pienso rápido, mucho más rápido de lo que me gustaría; naturalmente, rápido no quiere decir bien, ni correcto. De hecho, muchas de las decisiones que tomé son increíblemente cuestionables si se examinan con detenimiento, pero, irónicamente, todas esas decisiones forjaron mi hoy; así que, al sol de hoy, no hay tanto arrepentimiento, salvo algunas salvedades.
+
+Pero eso es el hoy. En su momento sufría; sufría por cada decisión tomada que no me hiciera bien, sufría por cada pensamiento y por cada posibilidad que calculaba mi mal calibrado cerebro. El saber porque sabía y el ver porque veía demasiado me atormentaban. El problema, claramente, era el procesar; pero como no podía dejar de saber y ver, tenía que encontrar paz de alguna manera. ¿Y qué mejor manera que obligando a mi cerebro a desviar toda esa atención a mi sistema nervioso? Qué placer hallaba cuando sentía mis músculos agonizar por el ejercicio, porque mi mente estaba en calma, en silencio... El silencio era todo lo que necesitaba. Pero la vida siempre es graciosa: cuando estaba en mi mejor etapa deportiva y en mi mejor condición física, me enfermé. No podía seguir haciendo ejercicio y vi, día tras día, mi condición deteriorarse... Ciertamente sufrí, pero sufrí el doble; y lo peor es que esa misma época vino acompañada de toda una serie de circunstancias que mermaron aún más mi poca estabilidad mental.
+
+Para cuando salí de la enfermedad, mi condición no era la misma ni un cuarto de lo que fue, y no tenía la energía mental para recuperarla. Así que golpeé con fuerza la pared y, por un pequeño instante, cuando las terminaciones nerviosas de mi mano gritaron, en mi mente hubo silencio. Solo silencio. Para mí, esa fue toda una revelación. Así que me construí un saco de boxeo, en su momento con arena y luego con cauchos; cada vez que necesitara silencio, solo tenía que verlo a él. Cada exceso de pensamiento, cada castigo autoimpuesto, cada falla, cada tara mental, la descargaba una y otra vez con él... Más de una vez sangré, más de una vez no pude cerrar las manos por la inflamación, pero, al igual que un adicto, no podía dejar de hacerlo. Esa dependencia poco a poco se fue convirtiendo en un placer indescriptible porque, en mi silencio mental, me sentía vivo; porque el dolor me daba la libertad mental que ninguna otra actividad lograba.
+
+Pero la mente es soberanamente frágil y, para completar, siempre querrá la salida más rápida. Hacer *sparring* con un saco de boxeo es toda una preparación, es todo un gasto de energía para conseguir dolor; así que busqué otras alternativas porque, en mis momentos donde ya no podía más, el consuelo de un bisturí era simplemente reconfortante. La sensación aguda contra la piel, la calidez de la sangre al caer y saber que con solo unos milímetros de profundidad más, con solo unos milímetros de abertura más y solo un rato viendo la sangre correr, el silencio de la mente sería eterno... Pensar en eso me llenaba de euforia. Claramente, aquí estoy; aunque podría explicar el hilo de ideas que me sacaron de ese pozo, esto no va de eso y estoy casi seguro de que lo habré escrito en ensayos pasados.
+
+El dolor era un frío abrazo entre la bruma del ruido; un frío que hiela los huesos, pero cuando le agarras el gusto, sencillamente no hay marcha atrás. El problema del dolor es la mentalidad con la cual lo abrazas, pero eso es material para otro ensayo.

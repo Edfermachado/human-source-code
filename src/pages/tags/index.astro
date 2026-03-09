@@ -1,36 +1,56 @@
 ---
 // src/pages/tags/index.astro
-import TerminalLayout from '../../layouts/TerminalLayout.astro';
-import { getCollection } from 'astro:content';
-const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+import TerminalLayout from "../../layouts/TerminalLayout.astro";
+import { getCollection } from "astro:content";
+import { slugify } from "../../utils/slugify"; // <-- Las importaciones siempre van al principio
 
-const allLogs = await getCollection('log');
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const allLogs = await getCollection("log");
 
 // 1. Filtramos los sectores válidos
-const validLogs = allLogs.filter(log => log.data && log.data.date && !log.data.draft);
+const validLogs = allLogs.filter(
+  (log) => log.data && log.data.date && !log.data.draft,
+);
 
 // 2. Extraemos las etiquetas únicas y las ordenamos alfabéticamente
-const uniqueTags = [...new Set(validLogs.flatMap(log => log.data.tags || []))].sort();
+const uniqueTags = [
+  ...new Set(validLogs.flatMap((log) => log.data.tags || [])),
+].sort();
 ---
 
 <TerminalLayout title="~/taxonomia - ◯ >_">
   <section class="tags-directory">
     <h1>~/taxonomia</h1>
     <p class="directory-description">
-      Índice del sistema de archivos conceptual. Selecciona un nodo para filtrar el registro.
+      Índice del sistema de archivos conceptual. Selecciona un nodo para filtrar
+      el registro.
     </p>
 
-    <div class="tags-grid">
-      {uniqueTags.map(tag => {
-        const count = validLogs.filter(log => log.data.tags?.includes(tag)).length;
-        
-        return (
-          <a href={`${base}tags/${tag.toLowerCase()}`} class="tag-card">
-            <span class="tag-name"><span class="prefix">::</span>{tag}</span>
-            <span class="tag-count">[{count} commit{count !== 1 ? 's' : ''}]</span>
-          </a>
-        );
-      })}
+   <div class="tags-grid">
+      {
+        uniqueTags.map((tag) => {
+          // 1. Calculamos los commits
+          const count = validLogs.filter((log) =>
+            log.data.tags?.includes(tag),
+          ).length;
+
+          // 2. Ejecutamos el formateador ANTES de tocar el HTML
+          const tagSlug = slugify(tag);
+
+          // 3. Inyectamos la variable ya limpia
+          return (
+            <a href={`${base}/tags/${tagSlug}`} class="tag-card">
+              <span class="tag-name">
+                <span class="prefix">::</span>
+                {tag}
+              </span>
+              <span class="tag-count">
+                [{count} commit{count !== 1 ? "s" : ""}]
+              </span>
+            </a>
+          );
+        })
+      }
     </div>
   </section>
 </TerminalLayout>
@@ -43,7 +63,7 @@ const uniqueTags = [...new Set(validLogs.flatMap(log => log.data.tags || []))].s
     font-weight: normal;
     font-family: var(--font-mono);
   }
-  
+
   .directory-description {
     color: var(--color-comentario);
     font-style: italic;
