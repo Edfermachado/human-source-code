@@ -1,0 +1,184 @@
+---
+// src/pages/dump/index.astro
+import TerminalLayout from '../../layouts/TerminalLayout.astro';
+import { getCollection, render } from 'astro:content'; 
+
+const allDumps = await getCollection('dump');
+
+const sortedDumps = allDumps.sort((a, b) => {
+  const timeA = a.data.date ? a.data.date.valueOf() : 0;
+  const timeB = b.data.date ? b.data.date.valueOf() : 0;
+  return timeB - timeA;
+});
+
+const renderedDumps = await Promise.all(
+  sortedDumps.map(async (dump) => {
+    const { Content } = await render(dump);
+    return { data: dump.data, body: dump.body, Content }; // Extraemos el 'body' crudo para compartir
+  })
+);
+---
+
+<TerminalLayout title="~/dump - ◯ >_">
+  <section class="core-dump">
+    <h1>~/dump</h1>
+    <p class="directory-description">
+      Volcado de memoria bruta. Pensamientos sin procesar extraídos antes del colapso del sistema.
+    </p>
+
+    <div class="dump-stream">
+      {renderedDumps.map(({ data, body, Content }) => {
+        const dateStr = data.date ? data.date.toISOString().split('T')[0] : 'lost';
+        
+        return (
+          <article class="dump-entry">
+            <div class="dump-meta">
+              <span class="timestamp">>> [timestamp: {dateStr}]</span>
+              <button class="export-btn" data-text={body}>[exportar]</button>
+            </div>
+            <div class="dump-content">
+              <Content />
+            </div>
+            <div class="dump-footer">
+              <span class="footer-note">> Edfermachado</span>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+  </section>
+</TerminalLayout>
+
+<style>
+  .core-dump h1 {
+    color: var(--color-ceniza);
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    font-weight: normal;
+    font-family: var(--font-mono);
+  }
+  
+  .directory-description {
+    color: var(--color-comentario);
+    font-style: italic;
+    margin-bottom: 3rem;
+    font-size: 0.9rem;
+  }
+
+  .dump-stream {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    max-width: 600px;
+  }
+
+  .dump-entry {
+    padding-bottom: 2rem;
+    border-bottom: 1px dashed var(--color-superficie);
+  }
+
+  .dump-entry:last-child {
+    border-bottom: none;
+  }
+
+  .dump-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-mono);
+    margin-bottom: 1rem;
+    padding-left: 0.5rem;
+    border-left: 2px solid var(--color-comentario);
+  }
+
+  .timestamp {
+    color: var(--color-comentario);
+    font-size: 0.85rem;
+  }
+
+  /* Estilos del botón de exportar */
+  .export-btn {
+    background: none;
+    border: none;
+    color: var(--color-liquen);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+
+  .export-btn:hover {
+    color: var(--color-ceniza);
+  }
+
+  .dump-content {
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--color-ceniza);
+    opacity: 0.9;
+  }
+
+  .dump-content :global(p) {
+    margin-bottom: 1rem;
+  }
+  .dump-content :global(p:last-child) {
+    margin-bottom: 0;
+  }
+
+  /* Estilos de la firma */
+  .dump-footer {
+    margin-top: 1.5rem;
+    text-align: right;
+  }
+
+  .footer-note {
+    font-family: var(--font-mono);
+    color: var(--color-comentario);
+    font-size: 0.9rem;
+    font-style: italic;
+    opacity: 0.7;
+  }
+</style>
+
+<script>
+  // Script microscópico para manejar la exportación
+  document.addEventListener('DOMContentLoaded', () => {
+    // 1. Forzamos el tipado a HTMLElement para que el compilador libere el uso de .style
+    const exportBtns = document.querySelectorAll<HTMLElement>('.export-btn');
+
+    exportBtns.forEach(btn => {
+      btn.addEventListener('click', async () => {
+        // Aseguramos que el texto exista con un fallback vacío para evitar nulos
+        const rawText = btn.getAttribute('data-text') || '';
+        const payload = `${rawText.trim()}\n\n> Edfermachado\n${window.location.href}`;
+
+        if (navigator.share) {
+          try {
+            await navigator.share({
+              title: 'Volcado de memoria',
+              text: payload,
+            });
+          } catch (err) {
+            console.log('Exportación cancelada por el usuario.');
+          }
+        } 
+        else {
+          try {
+            await navigator.clipboard.writeText(payload);
+            const originalText = btn.textContent;
+            btn.textContent = '[copiado]';
+            btn.style.color = 'var(--color-ceniza)';
+            
+            setTimeout(() => {
+              btn.textContent = originalText;
+              btn.style.color = 'var(--color-liquen)';
+            }, 2000);
+          } catch (err) {
+            console.error('Fallo al copiar al portapapeles:', err);
+          }
+        }
+      });
+    });
+  });
+</script>

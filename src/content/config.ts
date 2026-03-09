@@ -15,6 +15,15 @@ const logCollection = defineCollection({
   }),
 });
 
+// 1. Declaramos la nueva colección para memoria volátil
+const dumpCollection = defineCollection({
+  type: 'content',
+  schema: z.object({
+    // Solo requerimos la marca temporal. Sin título, sin etiquetas.
+    date: z.date().nullable().optional()
+  }),
+});
+
 // Exportamos el objeto 'collections' para que Astro lo registre
 export const collections = {
   'log': logCollection,
