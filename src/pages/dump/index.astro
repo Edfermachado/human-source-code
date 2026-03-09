@@ -142,17 +142,25 @@ const renderedDumps = await Promise.all(
 </style>
 
 <script>
-  // Script microscópico para manejar la exportación
+  // Script microscópico para manejar la exportación con formato de terminal
   document.addEventListener('DOMContentLoaded', () => {
-    // 1. Forzamos el tipado a HTMLElement para que el compilador libere el uso de .style
     const exportBtns = document.querySelectorAll<HTMLElement>('.export-btn');
 
     exportBtns.forEach(btn => {
       btn.addEventListener('click', async () => {
-        // Aseguramos que el texto exista con un fallback vacío para evitar nulos
+        // 1. Extraemos el texto crudo del atributo
         const rawText = btn.getAttribute('data-text') || '';
-        const payload = `${rawText.trim()}\n\n> Edfermachado\n${window.location.href}`;
+        
+        // 2. Buscamos el timestamp visual que está al lado del botón
+        const metaContenedor = btn.closest('.dump-meta');
+        const timestampElemento = metaContenedor?.querySelector('.timestamp');
+        const timestampTexto = timestampElemento ? timestampElemento.textContent : '>> [timestamp: lost]';
 
+        // 3. Ensamblamos el payload con doble salto de línea (\n\n) 
+        // para simular los márgenes y bloques de tu interfaz CSS
+        const payload = `${timestampTexto}\n\n${rawText.trim()}\n\n> edwin_machado\n${window.location.href}`;
+
+        // Flujo de exportación (nativa o portapapeles)
         if (navigator.share) {
           try {
             await navigator.share({
@@ -166,6 +174,8 @@ const renderedDumps = await Promise.all(
         else {
           try {
             await navigator.clipboard.writeText(payload);
+            
+            // Feedback visual en el botón
             const originalText = btn.textContent;
             btn.textContent = '[copiado]';
             btn.style.color = 'var(--color-ceniza)';
