@@ -43,7 +43,7 @@ const publishedLogs = validLogs.sort((a, b) => b.data.date.valueOf() - a.data.da
             <time datetime={log.data.date.toISOString()} class="commit-date">
               [{dateStr}]
             </time>
-            <a href={`${base}log/${log.slug}`} class="commit-message">
+            <a href={`${base}/log/${log.slug}`} class="commit-message">
               {log.data.title}
             </a>
             <div class="commit-tags">

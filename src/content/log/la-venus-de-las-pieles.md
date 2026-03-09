@@ -6,7 +6,7 @@ draft: false
 summary: "Desglose e interpretación de los diálogos centrales de La Venus de las pieles, explorando la dicotomía de poder y la naturaleza del amor pasional."
 ---
 
-![Image1](/home/edfermachado/Escritorio/Escritos/FrasesCapture/1LVDLP.png)
+![Extracto de la Venus de las Pieles](../../assets/images/1LVDLP.png)
 
 Con esta frase empezamos el libro y, por consiguiente, su análisis...
 

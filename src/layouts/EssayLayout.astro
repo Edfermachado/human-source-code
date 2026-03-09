@@ -33,7 +33,7 @@ const formattedDate = date
         <span class="tags">
           {
             tags?.map((tag: string) => (
-              <span class="tag">::{tag.toLowerCase()}</span>
+              <span class="/tag">::{tag.toLowerCase()}</span>
             ))
           }
         </span>
@@ -117,4 +117,33 @@ const formattedDate = date
       font-size: 1.05rem; /* Ajuste sutil para evitar fatiga en pantallas estrechas */
     }
   }
+
+  /* Tratamiento de imágenes inyectadas (Universal para Mobile y Desktop) */
+  .essay-content :global(img) {
+    max-width: 100%; /* Evita que la imagen desborde el contenedor del ensayo */
+    height: auto;
+    display: block;
+    margin: 2.5rem auto; /* Espaciado generoso arriba y abajo, centrado horizontal */
+    
+    /* El marco técnico brutalista */
+    border: 1px solid var(--color-comentario); 
+    background-color: var(--color-superficie);
+    padding: 0.5rem; 
+    
+    /* Pequeño toque visual: un ligero redondeo técnico y sombra para separar del fondo */
+    border-radius: 2px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Si inyectas un pie de foto usando sintaxis HTML (<figure><figcaption>) */
+  .essay-content :global(figcaption) {
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-comentario);
+    margin-top: -1.5rem; /* Sube el texto para acercarlo al marco de la imagen */
+    margin-bottom: 2.5rem;
+    font-style: italic;
+  }
+  
 </style>
