@@ -1,11 +1,19 @@
 ---
 // src/components/TerminalHeader.astro
+
+// Sanitizamos la variable base
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 <header class="terminal-header">
   <nav>
-    <a href={base} class="logo">◯ >_</a>
-    <div class="links">
+    <div class="nav-brand">
+      <a href={`${base}/`} class="logo">◯ >_</a>
+      <button id="menu-toggle" class="menu-toggle" aria-expanded="false">
+        [+] nav
+      </button>
+    </div>
+    
+    <div id="nav-links" class="links">
       <a href={`${base}/log`}>~/log</a>
       <a href={`${base}/tags`}>~/taxonomia</a>
       <a href={`${base}/chasis`}>~/chasis</a>
@@ -26,8 +34,13 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap; /* Permite que el contenido fluya */
-    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .nav-brand {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: auto;
   }
   .logo {
     font-weight: bold;
@@ -35,25 +48,81 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     font-size: 1.2rem;
     border-bottom: none;
   }
+  
+  /* Botón oculto por defecto en monitores */
+  .menu-toggle {
+    display: none;
+    background: transparent;
+    border: none;
+    color: var(--color-comentario);
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 0.5rem;
+  }
+  .menu-toggle:hover {
+    color: var(--color-liquen);
+  }
+  
   .links {
     display: flex;
-    flex-wrap: wrap; /* Los enlaces bajan de línea si no caben */
     gap: 1.5rem;
   }
   .links a {
     font-size: 0.9rem;
-    padding: 0.2rem 0; /* Aumenta el área táctil sin afectar el diseño */
   }
 
-  /* Punto de quiebre para móviles (Smartphones) */
+  /* Compilación dinámica para hardware móvil */
   @media (max-width: 600px) {
     nav {
       flex-direction: column;
       align-items: flex-start;
     }
+    .nav-brand {
+      width: 100%; /* Forzamos que el logo y el botón ocupen toda la fila */
+    }
+    .menu-toggle {
+      display: block; /* Revelamos el interruptor */
+    }
     .links {
+      display: none; /* Colapsamos los enlaces por defecto */
+      flex-direction: column;
       width: 100%;
-      gap: 1rem 1.5rem; /* Espaciado vertical y horizontal */
+      gap: 1rem;
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px dotted var(--color-superficie);
+    }
+    /* Esta clase se inyectará vía JavaScript */
+    .links.open {
+      display: flex;
+      animation: fadeIn 0.2s ease-in-out;
     }
   }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
 </style>
+
+<script>
+  // Lógica de inyección directa en el cliente.
+  // Astro aísla este script automáticamente para evitar colisiones.
+  document.addEventListener('DOMContentLoaded', () => {
+    const toggle = document.getElementById('menu-toggle');
+    const links = document.getElementById('nav-links');
+
+    if (toggle && links) {
+      toggle.addEventListener('click', () => {
+        // Intercambiamos la clase 'open'
+        links.classList.toggle('open');
+        
+        // Verificamos el estado del chasis para cambiar el texto del botón
+        const isOpen = links.classList.contains('open');
+        toggle.textContent = isOpen ? '[-] nav' : '[+] nav';
+        toggle.setAttribute('aria-expanded', isOpen.toString());
+      });
+    }
+  });
+</script>
