@@ -1,8 +1,8 @@
 ---
 // src/layouts/EssayLayout.astro
-import TerminalLayout from './TerminalLayout.astro';
+import TerminalLayout from "./TerminalLayout.astro";
 
-// 1. Ampliamos el contrato estricto. 
+// 1. Ampliamos el contrato estricto.
 // Ahora TypeScript sabe que los datos pueden venir en la raíz o dentro de frontmatter.
 interface Props {
   title?: string;
@@ -19,23 +19,27 @@ interface Props {
 const { title, date, tags } = Astro.props.frontmatter || Astro.props;
 
 // 3. Formateamos la fecha con fallback en caso de sectores vacíos
-const formattedDate = date ? new Date(date).toISOString().split('T')[0] : 'YYYY-MM-DD';
+const formattedDate = date
+  ? new Date(date).toISOString().split("T")[0]
+  : "YYYY-MM-DD";
 ---
 
-<TerminalLayout title={`${title || 'Sector Vacío'} - ◯ >_`}>
+<TerminalLayout title={`${title || "Sector Vacío"} - ◯ >_`}>
   <article class="essay-container">
     <header class="essay-meta">
-      <h1>{title || '>> [ERROR: TÍTULO NO ENCONTRADO]'}</h1>
+      <h1>{title || ">> [ERROR: TÍTULO NO ENCONTRADO]"}</h1>
       <div class="metadata">
         <span class="date">[{formattedDate}]</span>
         <span class="tags">
-          {tags?.map((tag: string) => (
-            <span class="tag">::{tag.toLowerCase()}</span>
-          ))}
+          {
+            tags?.map((tag: string) => (
+              <span class="tag">::{tag.toLowerCase()}</span>
+            ))
+          }
         </span>
       </div>
     </header>
-    
+
     <div class="essay-content">
       <slot />
     </div>
@@ -71,7 +75,7 @@ const formattedDate = date ? new Date(date).toISOString().split('T')[0] : 'YYYY-
     color: var(--color-liquen);
     margin-right: 0.5rem;
   }
-  
+
   /* Aquí ocurre el cambio de contexto: de la terminal al libro */
   .essay-content {
     font-family: var(--font-serif);
@@ -79,12 +83,13 @@ const formattedDate = date ? new Date(date).toISOString().split('T')[0] : 'YYYY-
     line-height: 1.8;
     color: var(--color-ceniza);
   }
-  
+
   /* Brutalismo tipográfico: sin adornos, solo jerarquía pura */
   .essay-content :global(p) {
     margin-bottom: 1.5rem;
   }
-  .essay-content :global(h2), .essay-content :global(h3) {
+  .essay-content :global(h2),
+  .essay-content :global(h3) {
     font-family: var(--font-mono);
     color: var(--color-liquen);
     margin-top: 2.5rem;
@@ -97,5 +102,19 @@ const formattedDate = date ? new Date(date).toISOString().split('T')[0] : 'YYYY-
     margin-left: 0;
     font-style: italic;
     color: var(--color-comentario);
+  }
+
+  /* Responsividad para Lectura en Móvil */
+  @media (max-width: 600px) {
+    .essay-meta h1 {
+      font-size: 1.5rem; /* Reducimos impacto visual del título */
+    }
+    .metadata {
+      flex-direction: column; /* Apilamos fecha y etiquetas */
+      gap: 0.5rem;
+    }
+    .essay-content {
+      font-size: 1.05rem; /* Ajuste sutil para evitar fatiga en pantallas estrechas */
+    }
   }
 </style>

@@ -1,28 +1,35 @@
 ---
 // src/pages/tags/[tag].astro
-import TerminalLayout from '../../layouts/TerminalLayout.astro';
-import { getCollection, type CollectionEntry } from 'astro:content';
+import TerminalLayout from "../../layouts/TerminalLayout.astro";
+import { getCollection, type CollectionEntry } from "astro:content";
 
-const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 
 export async function getStaticPaths() {
-  const allLogs = await getCollection('log');
-  
+  const allLogs = await getCollection("log");
+
   // 1. Filtramos sectores corruptos y borradores
-  const validLogs = allLogs.filter(log => log.data && log.data.date && !log.data.draft);
+  const validLogs = allLogs.filter(
+    (log) => log.data && log.data.date && !log.data.draft,
+  );
 
   // 2. Extraemos un Set con todas las etiquetas únicas del repositorio
   // flatMap aplana el arreglo de arreglos, Set elimina duplicados
-  const uniqueTags = [...new Set(validLogs.flatMap(log => log.data.tags || []))];
+  const uniqueTags = [
+    ...new Set(validLogs.flatMap((log) => log.data.tags || [])),
+  ];
 
   // 3. Generamos las rutas dinámicas para el compilador
-  return uniqueTags.map(tag => {
+  return uniqueTags.map((tag) => {
     // Filtramos los ensayos que contienen la etiqueta actual
-    const filteredLogs = validLogs.filter(log => log.data.tags?.includes(tag));
-    
+    const filteredLogs = validLogs.filter((log) =>
+      log.data.tags?.includes(tag),
+    );
+
     // Ordenamos cronológicamente
-    const sortedLogs = filteredLogs.sort((a, b) => b.data.date!.valueOf() - a.data.date!.valueOf());
+    const sortedLogs = filteredLogs.sort(
+      (a, b) => b.data.date!.valueOf() - a.data.date!.valueOf(),
+    );
 
     return {
       params: { tag: tag.toLowerCase() }, // La URL será en minúsculas (ej: /tags/chasis)
@@ -33,7 +40,7 @@ export async function getStaticPaths() {
 
 // 4. Capturamos las propiedades inyectadas por getStaticPaths
 interface Props {
-  logs: CollectionEntry<'log'>[];
+  logs: CollectionEntry<"log">[];
   originalTag: string;
 }
 
@@ -45,31 +52,34 @@ const { logs, originalTag } = Astro.props;
   <section class="log-archive">
     <h1>~/taxonomia/<span class="highlight">::{tag}</span></h1>
     <p class="directory-description">
-      Registros filtrados bajo el concepto de [{originalTag}]. {logs.length} commit(s) encontrados.
+      Registros filtrados bajo el concepto de [{originalTag}]. {logs.length} commit(s)
+      encontrados.
     </p>
 
     <div class="commit-list">
-      {logs.map((log) => {
-        const dateStr = log.data.date!.toISOString().split('T')[0];
-        
-        return (
-          <article class="commit-entry">
-            <time datetime={log.data.date!.toISOString()} class="commit-date">
-              [{dateStr}]
-            </time>
-            <a href={`${base}/log/${log.slug}`} class="commit-message">
-              {log.data.title}
-            </a>
-            <div class="commit-tags">
-              {log.data.tags?.map(t => (
-                <a href={`${base}/tags/${t.toLowerCase()}`} class="tag">
-                  ::{t.toLowerCase()}
-                </a>
-              ))}
-            </div>
-          </article>
-        );
-      })}
+      {
+        logs.map((log) => {
+          const dateStr = log.data.date!.toISOString().split("T")[0];
+
+          return (
+            <article class="commit-entry">
+              <time datetime={log.data.date!.toISOString()} class="commit-date">
+                [{dateStr}]
+              </time>
+              <a href={`${base}/log/${log.slug}`} class="commit-message">
+                {log.data.title}
+              </a>
+              <div class="commit-tags">
+                {log.data.tags?.map((t) => (
+                  <a href={`${base}/tags/${t.toLowerCase()}`} class="tag">
+                    ::{t.toLowerCase()}
+                  </a>
+                ))}
+              </div>
+            </article>
+          );
+        })
+      }
     </div>
   </section>
 </TerminalLayout>
@@ -87,7 +97,7 @@ const { logs, originalTag } = Astro.props;
   .highlight {
     color: var(--color-liquen);
   }
-  
+
   .directory-description {
     color: var(--color-comentario);
     font-style: italic;
@@ -153,8 +163,22 @@ const { logs, originalTag } = Astro.props;
 
   @media (max-width: 600px) {
     .commit-entry {
-      grid-template-columns: 1fr;
-      gap: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      padding: 1rem 0; /* Aumentamos el área de toque del bloque */
+    }
+    .commit-message {
+      font-size: 1.1rem;
+      order: 1; /* Forzamos que el título aparezca primero */
+    }
+    .commit-date {
+      order: 2; /* Fecha de segundo */
+      opacity: 0.7;
+    }
+    .commit-tags {
+      order: 3; /* Etiquetas de último */
+      margin-top: 0.2rem;
     }
   }
 </style>

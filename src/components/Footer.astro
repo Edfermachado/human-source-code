@@ -1,0 +1,43 @@
+---
+// src/components/Footer.astro
+const year = new Date().getFullYear();
+---
+
+<footer class="terminal-footer">
+  <span class="eof">EOF (End of File)</span>
+  <span class="sys-info">sys_time: {year} <span class="cursor">_</span></span>
+</footer>
+
+<style>
+  .terminal-footer {
+    padding: 2rem 1rem;
+    max-width: 800px;
+    margin: auto auto 0 auto; /* Empuja el footer siempre al final del chasis */
+    width: 100%;
+    border-top: 1px dashed var(--color-comentario);
+    display: flex;
+    justify-content: space-between;
+    color: var(--color-comentario);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+  }
+  
+  .cursor {
+    display: inline-block;
+    color: var(--color-liquen);
+    animation: blink 1s step-end infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  @media (max-width: 600px) {
+    .terminal-footer {
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+  }
+</style>

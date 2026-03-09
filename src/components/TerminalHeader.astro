@@ -26,18 +26,34 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap; /* Permite que el contenido fluya */
+    gap: 1rem;
   }
   .logo {
     font-weight: bold;
     color: var(--color-liquen);
     font-size: 1.2rem;
-    border-bottom: none; /* Quitamos el subrayado del hover general */
+    border-bottom: none;
   }
   .links {
     display: flex;
+    flex-wrap: wrap; /* Los enlaces bajan de línea si no caben */
     gap: 1.5rem;
   }
   .links a {
     font-size: 0.9rem;
+    padding: 0.2rem 0; /* Aumenta el área táctil sin afectar el diseño */
+  }
+
+  /* Punto de quiebre para móviles (Smartphones) */
+  @media (max-width: 600px) {
+    nav {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .links {
+      width: 100%;
+      gap: 1rem 1.5rem; /* Espaciado vertical y horizontal */
+    }
   }
 </style>

@@ -1,14 +1,14 @@
 ---
 // src/pages/log/index.astro
-import TerminalLayout from '../../layouts/TerminalLayout.astro';
-import { getCollection } from 'astro:content';
-const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+import TerminalLayout from "../../layouts/TerminalLayout.astro";
+import { getCollection } from "astro:content";
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 // 1. Consultar la colección completa de ensayos
-const allLogs = await getCollection('log');
+const allLogs = await getCollection("log");
 
 // 2. Filtrar borradores (si los hay) y ordenar cronológicamente (más reciente primero)
 const publishedLogs = allLogs
-  .filter(log => !log.data.draft)
+  .filter((log) => !log.data.draft)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
 
@@ -20,26 +20,28 @@ const publishedLogs = allLogs
     </p>
 
     <div class="commit-list">
-      {publishedLogs.map((log) => {
-        // Formatear fecha a YYYY-MM-DD
-        const dateStr = log.data.date.toISOString().split('T')[0];
-        
-        return (
-          <article class="commit-entry">
-            <time datetime={log.data.date.toISOString()} class="commit-date">
-              [{dateStr}]
-            </time>
-            <a href={`${base}/log/${log.slug}`} class="commit-message">
-              {log.data.title}
-            </a>
-            <div class="commit-tags">
-              {log?.data.tags?.map(tag => (
-                <span class="tag">::{tag.toLowerCase()}</span>
-              ))}
-            </div>
-          </article>
-        );
-      })}
+      {
+        publishedLogs.map((log) => {
+          // Formatear fecha a YYYY-MM-DD
+          const dateStr = log.data.date.toISOString().split("T")[0];
+
+          return (
+            <article class="commit-entry">
+              <time datetime={log.data.date.toISOString()} class="commit-date">
+                [{dateStr}]
+              </time>
+              <a href={`${base}/log/${log.slug}`} class="commit-message">
+                {log.data.title}
+              </a>
+              <div class="commit-tags">
+                {log?.data.tags?.map((tag) => (
+                  <span class="tag">::{tag.toLowerCase()}</span>
+                ))}
+              </div>
+            </article>
+          );
+        })
+      }
     </div>
   </section>
 </TerminalLayout>
@@ -51,7 +53,7 @@ const publishedLogs = allLogs
     margin-bottom: 0.5rem;
     font-weight: normal;
   }
-  
+
   .directory-description {
     color: var(--color-comentario);
     font-style: italic;
@@ -108,15 +110,25 @@ const publishedLogs = allLogs
     font-size: 0.8rem;
     opacity: 0.7;
   }
-  
-  /* Responsividad básica para pantallas pequeñas */
+
   @media (max-width: 600px) {
     .commit-entry {
-      grid-template-columns: 1fr;
-      gap: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      padding: 1rem 0; /* Aumentamos el área de toque del bloque */
     }
-    .commit-date, .commit-tags {
-      font-size: 0.8rem;
+    .commit-message {
+      font-size: 1.1rem;
+      order: 1; /* Forzamos que el título aparezca primero */
+    }
+    .commit-date {
+      order: 2; /* Fecha de segundo */
+      opacity: 0.7;
+    }
+    .commit-tags {
+      order: 3; /* Etiquetas de último */
+      margin-top: 0.2rem;
     }
   }
 </style>
