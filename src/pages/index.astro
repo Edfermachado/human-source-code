@@ -35,11 +35,11 @@ publishedLogs.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
     <div class="commit-list">
       {publishedLogs.map((log) => {
-        const dateStr = log.data.date.toISOString().split('T')[0];
+        const dateStr = log.data.date ? log.data.date.toISOString().split('T')[0] : '';
         
         return (
           <article class="commit-entry">
-            <time datetime={log.data.date.toISOString()} class="commit-date">
+            <time datetime={log.data.date?.toISOString()} class="commit-date">
               [{dateStr}]
             </time>
             <a href={`${base}/log/${log.slug}`} class="commit-message">
