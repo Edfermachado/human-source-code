@@ -1,178 +1,173 @@
 ---
-// src/pages/log/index.astro
-import TerminalLayout from '../layouts/TerminalLayout.astro';
-import { getCollection, type CollectionEntry } from 'astro:content';
-const base = import.meta.env.BASE_URL;
+// src/pages/index.astro
+import TerminalLayout from "../layouts/TerminalLayout.astro";
 
-const allLogs = await getCollection('log');
-
-// 1. Manejo histórico: Separamos los archivos recientes de los fragmentos antiguos sin metadatos
-const publishedLogs: CollectionEntry<'log'>[] = [];
-const recoveredLogs: CollectionEntry<'log'>[] = []; // Archivos antiguos sin fecha
-
-allLogs.forEach(log => {
-  if (!log.data?.draft) {
-    if (log.data?.date) {
-      publishedLogs.push(log);
-    } else {
-      recoveredLogs.push(log);
-      // Aviso silencioso en la terminal de compilación
-      console.info(`[RECOVERY] Metadatos de tiempo no encontrados. Asignando 'lost' a: ~/log/${log.slug || log.id}`);
-    }
-  }
-});
-
-// 2. Ordenamos secuencialmente solo los registros con fecha válida
-publishedLogs.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+// Sanitización de la ruta base para los enlaces internos
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 ---
 
-<TerminalLayout title="~/log - ◯ >_">
-  <section class="log-archive">
-    <h1>~/log</h1>
-    <p class="directory-description">
-      Registro secuencial de disecciones. Repositorio principal del código fuente humano. Ordenado por timestamp de compilación.
-    </p>
+<TerminalLayout title="whoami - ◯ >_">
+  <section class="whoami-terminal">
+    <div class="command-line">
+      <span class="prompt">root@chasis:~#</span>
+      <span class="command">whoami</span>
+    </div>
+    <p class="output-identity">Edfermachado</p>
 
-    <div class="commit-list">
-      {publishedLogs.map((log) => {
-        const dateStr = log.data.date ? log.data.date.toISOString().split('T')[0] : '';
-        
-        return (
-          <article class="commit-entry">
-            <time datetime={log.data.date?.toISOString()} class="commit-date">
-              [{dateStr}]
-            </time>
-            <a href={`${base}/log/${log.slug}`} class="commit-message">
-              {log.data.title}
-            </a>
-            <div class="commit-tags">
-              {log.data.tags?.map(tag => (
-                <span class="tag">::{tag.toLowerCase()}</span>
-              ))}
-            </div>
-          </article>
-        );
-      })}
+    <div class="system-block">
+      <h2>>> ~/software (Arquitectura Lógica)</h2>
+      <p>
+        El código no solo habita en los servidores. Mi sistema operativo mental
+        corre sobre directivas innegociables: <strong>Kaizen</strong> (mejora continua),
+        <strong>Kairós</strong> (el tiempo oportuno), <strong>Mōría</strong> (la ligereza
+        necesaria para soportar el sinsentido), <strong>Filaucía</strong> (el amor
+        propio como placa base) y la incesante búsqueda empírica de la <strong
+          >Calidad</strong
+        >. La mente pasó de ser un mar de sobrepensamiento paralizante a un
+        entorno de ejecución ordenado, donde la técnica de la ingeniería y el
+        espíritu convergen.
+      </p>
     </div>
 
-    {/* Sección para los ensayos antiguos recuperados sin fecha */}
-    {recoveredLogs.length > 0 && (
-      <div class="system-recovery">
-        <p class="warning-title">>> [INFO] Fragmentos recuperados de versiones anteriores de la mente:</p>
-        <div class="commit-list">
-          {recoveredLogs.map(log => (
-            <article class="commit-entry">
-              <time class="commit-date" title="Metadatos de tiempo perdidos">
-                [timestamp: lost]
-              </time>
-              <a href={`${base}/log/${log.slug}`} class="commit-message">
-                {log.data.title}
-              </a>
-              <div class="commit-tags">
-                {log.data.tags?.map(tag => (
-                  <span class="tag">::{tag.toLowerCase()}</span>
-                ))}
-              </div>
-            </article>
-          ))}
-        </div>
+    <div class="system-block">
+      <h2>>> ~/hardware (Especificaciones Físicas)</h2>
+      <p>
+        Un software denso exige un contenedor antifrágil. Someto el chasis a
+        pruebas de estrés voluntarias (calistenia, asfalto y fricción manual en
+        la materia) no como castigo, sino como confirmación empírica de
+        durabilidad. El agotamiento físico se utiliza para forzar el silencio
+        mental absoluto (Ichigyo Zammai), expandir el rango operativo de la
+        máquina y confirmar que la voluntad es superior a la comodidad.
+      </p>
+    </div>
+
+    <div class="system-block">
+      <h2>>> ~/interfaces (Output & Expresión)</h2>
+      <p>
+        Las tablas de teatro funcionan como un entorno de pruebas cerrado
+        (sandbox) para la calibración social, la vulnerabilidad y la conexión
+        con las trivialidades de la vida. A través de ellas y del movimiento
+        continuo, hackeo la barrera de la separatidad, permitiendo que la
+        máquina sienta y exprese sin que el procesador colapse.
+      </p>
+    </div>
+
+    <div class="nav-shortcuts">
+      <p class="shortcut-title">>> Directorios_Principales:</p>
+      <div class="shortcut-links">
+        <a href={`${base}/log`}>./log (Repositorio de Ensayos y Disecciones)</a>
+        <a href={`${base}/chasis`}>./chasis (Auditoría de Antifragilidad)</a>
+        <a href={`${base}/quirofano`}
+          >./quirofano (Peer Review & Debate Lógico)</a
+        >
+        <a href={`${base}/dump`}>./dump (Memoria Volátil)</a>
       </div>
-    )}
+    </div>
   </section>
 </TerminalLayout>
 
 <style>
-  .log-archive h1 {
-    color: var(--color-ceniza);
-    font-size: 1.5rem;
+  /* Mantén exactamente el mismo CSS que ya tenías, funciona perfecto para el Brutalismo Minimalista */
+  .whoami-terminal {
+    max-width: 650px;
+    margin: 0 auto;
+    padding-top: 1rem;
+  }
+
+  .command-line {
+    font-family: var(--font-mono);
+    font-size: 1.2rem;
     margin-bottom: 0.5rem;
+  }
+
+  .prompt {
+    color: #d08770; /* Color terminal root */
+    font-weight: bold;
+    margin-right: 0.8rem;
+  }
+
+  .command {
+    color: var(--color-ceniza);
+  }
+
+  .output-identity {
+    font-family: var(--font-mono);
+    color: var(--color-liquen);
+    font-size: 1.1rem;
+    margin-bottom: 3rem;
+    padding-left: 1rem;
+    border-left: 2px solid var(--color-liquen);
+  }
+
+  .system-block {
+    margin-bottom: 2.5rem;
+  }
+
+  .system-block h2 {
+    font-family: var(--font-mono);
+    color: var(--color-comentario);
+    font-size: 1rem;
+    margin-bottom: 1rem;
     font-weight: normal;
   }
-  
-  .directory-description {
-    color: var(--color-comentario);
-    font-style: italic;
-    margin-bottom: 3rem;
-    font-size: 0.9rem;
+
+  .system-block p {
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--color-ceniza);
   }
 
-  .commit-list {
+  .cache-list {
+    list-style-type: none;
+    padding-left: 0;
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
+    color: var(--color-ceniza);
+    line-height: 1.7;
+  }
+
+  .cache-list li {
+    margin-bottom: 0.8rem;
+  }
+
+  .keyword {
+    font-family: var(--font-mono);
+    color: var(--color-liquen);
+    font-size: 0.85rem;
+    margin-right: 0.5rem;
+  }
+
+  .nav-shortcuts {
+    margin-top: 4rem;
+    padding: 1.5rem;
+    background-color: var(--color-superficie);
+    border: 1px dashed var(--color-comentario);
+  }
+
+  .shortcut-title {
+    font-family: var(--font-mono);
+    color: var(--color-comentario);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+
+  .shortcut-links {
     display: flex;
     flex-direction: column;
-    gap: 1.2rem;
+    gap: 0.8rem;
   }
 
-  .commit-entry {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    gap: 1.5rem;
-    align-items: baseline;
-    padding: 0.5rem 0;
-    border-bottom: 1px dotted var(--color-superficie);
-    transition: background-color 0.2s ease;
-  }src/pages/tags/index.astro
-
-  .commit-entry:hover {
-    background-color: var(--color-superficie);
-  }
-
-  .commit-date {
-    color: var(--color-comentario);
+  .shortcut-links a {
     font-family: var(--font-mono);
-    font-size: 0.9rem;
-    white-space: nowrap;
-  }
-
-  .commit-message {
+    font-size: 0.95rem;
     color: var(--color-ceniza);
-    font-family: var(--font-mono);
     text-decoration: none;
     border-bottom: none;
+    transition: color 0.2s ease;
   }
 
-  .commit-message:hover {
+  .shortcut-links a:hover {
     color: var(--color-liquen);
-  }
-
-  .commit-tags {
-    display: flex;
-    gap: 0.5rem;
-  }
-
-  .tag {
-    color: var(--color-liquen);
-    font-size: 0.8rem;
-    opacity: 0.7;
-  }
-
-  /* Estilos para el bloque de diagnóstico de errores */
-  .system-warning {
-    margin-top: 4rem;
-    padding: 1rem;
-    border-left: 2px solid #D08770; /* Un tono óxido sutil para alertas */
-    background-color: var(--color-superficie);
-    font-family: var(--font-mono);
-    font-size: 0.85rem;
-    color: var(--color-comentario);
-  }
-
-  .warning-title {
-    color: #D08770;
-    margin-bottom: 0.5rem;
-  }
-
-  .system-warning ul {
-    list-style-type: none;
-    padding-left: 1rem;
-  }
-
-  @media (max-width: 600px) {
-    .commit-entry {
-      grid-template-columns: 1fr;
-      gap: 0.5rem;
-    }
-    .commit-date, .commit-tags {
-      font-size: 0.8rem;
-    }
   }
 </style>
