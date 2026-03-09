@@ -6,7 +6,7 @@ const logCollection = defineCollection({
   type: 'content', // Especificamos que es una colección de Markdown/MDX
   schema: z.object({
     title: z.string().max(100, "El título debe ser conciso."),
-    date: z.date(),
+    date: z.date().nullable().optional(),
     // Tipado estricto: Solo permitimos estas etiquetas exactas.
     tags: z.array(z.string()
     ).optional(),

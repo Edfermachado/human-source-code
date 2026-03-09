@@ -6,32 +6,31 @@ const base = import.meta.env.BASE_URL;
 
 const allLogs = await getCollection('log');
 
-// 1. Manejo defensivo: Separamos los archivos íntegros de los corruptos/vacíos
-const validLogs: CollectionEntry<'log'>[] = [];
-const corruptSectors: CollectionEntry<'log'>[] = [];
+// 1. Manejo histórico: Separamos los archivos recientes de los fragmentos antiguos sin metadatos
+const publishedLogs: CollectionEntry<'log'>[] = [];
+const recoveredLogs: CollectionEntry<'log'>[] = []; // Archivos antiguos sin fecha
 
 allLogs.forEach(log => {
-  // Verificamos que el objeto data y la propiedad date existan antes de operar
-  if (log.data && log.data.date) {
-    if (!log.data.draft) {
-      validLogs.push(log);
+  if (!log.data?.draft) {
+    if (log.data?.date) {
+      publishedLogs.push(log);
+    } else {
+      recoveredLogs.push(log);
+      // Aviso silencioso en la terminal de compilación
+      console.info(`[RECOVERY] Metadatos de tiempo no encontrados. Asignando 'lost' a: ~/log/${log.slug || log.id}`);
     }
-  } else {
-    corruptSectors.push(log);
-    // Lanzamos un aviso en tu terminal de Debian sin romper la compilación
-    console.warn(`[DIAGNÓSTICO] Sector corrupto o vacío detectado: ~/log/${log.slug || log.id}`);
   }
 });
 
-// 2. Ordenamos con seguridad solo los registros válidos
-const publishedLogs = validLogs.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+// 2. Ordenamos secuencialmente solo los registros con fecha válida
+publishedLogs.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
 
 <TerminalLayout title="~/log - ◯ >_">
   <section class="log-archive">
     <h1>~/log</h1>
     <p class="directory-description">
-      Registro secuencial de ensayos. Ordenado por fecha de commit.
+      Registro secuencial de disecciones. Repositorio principal del código fuente humano. Ordenado por timestamp de compilación.
     </p>
 
     <div class="commit-list">
@@ -56,14 +55,27 @@ const publishedLogs = validLogs.sort((a, b) => b.data.date.valueOf() - a.data.da
       })}
     </div>
 
-    {corruptSectors.length > 0 && (
-      <div class="system-warning">
-        <p class="warning-title">>> [WARN] Sectores de memoria sin formatear detectados:</p>
-        <ul>
-          {corruptSectors.map(sector => (
-            <li>./{sector.id} (Falta frontmatter o esquema inválido)</li>
+    {/* Sección para los ensayos antiguos recuperados sin fecha */}
+    {recoveredLogs.length > 0 && (
+      <div class="system-recovery">
+        <p class="warning-title">>> [INFO] Fragmentos recuperados de versiones anteriores de la mente:</p>
+        <div class="commit-list">
+          {recoveredLogs.map(log => (
+            <article class="commit-entry">
+              <time class="commit-date" title="Metadatos de tiempo perdidos">
+                [timestamp: lost]
+              </time>
+              <a href={`${base}/log/${log.slug}`} class="commit-message">
+                {log.data.title}
+              </a>
+              <div class="commit-tags">
+                {log.data.tags?.map(tag => (
+                  <span class="tag">::{tag.toLowerCase()}</span>
+                ))}
+              </div>
+            </article>
           ))}
-        </ul>
+        </div>
       </div>
     )}
   </section>
