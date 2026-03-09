@@ -108,7 +108,7 @@ Parte II
 
 ¿Y qué es *dilettante*, te preguntarás? No es más que un aficionado a algo.
 
-![Image2](/home/edfermachado/Escritorio/Escritos/FrasesCapture/image2.jpg){width=500 height=500}
+![Extracto de la Venus de las Pieles](../../assets/images/image2.jpg)
 
 El ideal de Severino para ese momento de sus memorias podría resumirse en lo siguiente:
 
