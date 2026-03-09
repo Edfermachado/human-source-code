@@ -1,0 +1,130 @@
+---
+// src/pages/contacto.astro
+import TerminalLayout from '../layouts/TerminalLayout.astro';
+
+// Matriz de nodos externos
+const externalNodes = [
+  {
+    protocol: 'MAIL',
+    title: 'somewher3@proton.me',
+    url: 'mailto:somewher3@proton.me',
+    desc: 'Buzón cifrado. Comunicación asíncrona directa.'
+  },
+  {
+    protocol: 'BROADCAST',
+    title: 'Canal de WhatsApp',
+    url: 'https://whatsapp.com/channel/0029Vb5xU7i2kNFgVTdC9C11',
+    desc: 'Transmisión de una vía. Micro-ensayos y ráfagas de pensamiento.'
+  },
+  {
+    protocol: 'VIDEO',
+    title: 'TikTok (edfermachado)',
+    url: 'https://www.tiktok.com/@edfermachado',
+    desc: 'Registro audiovisual. Entropía algorítmica controlada.'
+  }
+];
+---
+
+<TerminalLayout title="~/contacto - ◯ >_">
+  <section class="contact-hub">
+    <h1>~/contacto</h1>
+    <p class="directory-description">
+      Protocolos de comunicación externa. Nodos de transmisión activa.
+    </p>
+
+    <div class="node-grid">
+      {externalNodes.map(node => (
+        <a href={node.url} target="_blank" rel="noopener noreferrer" class="node-card">
+          <div class="node-header">
+            <span class="protocol">[{node.protocol}]</span>
+            <span class="node-title">{node.title}</span>
+          </div>
+          <p class="node-desc">{node.desc}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+</TerminalLayout>
+
+<style>
+  .contact-hub h1 {
+    color: var(--color-ceniza);
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    font-weight: normal;
+    font-family: var(--font-mono);
+  }
+  
+  .directory-description {
+    color: var(--color-comentario);
+    font-style: italic;
+    margin-bottom: 3rem;
+    font-size: 0.9rem;
+  }
+
+  .node-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 600px;
+  }
+
+  .node-card {
+    display: block;
+    padding: 1.5rem;
+    background-color: var(--color-superficie);
+    border: 1px solid transparent;
+    border-left: 2px solid var(--color-comentario);
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .node-card:hover {
+    border-left-color: var(--color-liquen);
+    background-color: var(--color-vacuo);
+    border-top: 1px solid var(--color-superficie);
+    border-right: 1px solid var(--color-superficie);
+    border-bottom: 1px solid var(--color-superficie);
+  }
+
+  .node-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+    font-family: var(--font-mono);
+  }
+
+  .protocol {
+    color: var(--color-liquen);
+    font-size: 0.85rem;
+    opacity: 0.8;
+  }
+
+  .node-title {
+    color: var(--color-ceniza);
+    font-size: 1.1rem;
+    font-weight: bold;
+  }
+
+  .node-card:hover .node-title {
+    color: var(--color-liquen);
+  }
+
+  .node-desc {
+    color: var(--color-comentario);
+    font-family: var(--font-serif);
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 600px) {
+    .node-header {
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+    .node-card {
+      padding: 1rem;
+    }
+  }
+</style>
