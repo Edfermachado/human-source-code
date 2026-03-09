@@ -1,6 +1,6 @@
 ---
 title: "Sobre una parte del yo"
-date: 2026-03-08
+date: 2025-03-17
 tags: ["Dinámicas de poder", "Sumisión", "La Venus de las pieles"]
 draft: false
 summary: "Reflexión introspectiva sobre el deseo de sumisión, el rol del hombre en las relaciones de poder y el conflicto interno entre la búsqueda de consuelo y la pérdida del yo."

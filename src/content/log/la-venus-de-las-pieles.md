@@ -1,6 +1,6 @@
 ---
 title: "Análisis: La Venus de las pieles"
-date: 2026-03-08
+date: 2025-03-16
 tags: ["Análisis literario", "Sacher-Masoch", "Tirano o Esclavo"]
 draft: false
 summary: "Desglose e interpretación de los diálogos centrales de La Venus de las pieles, explorando la dicotomía de poder y la naturaleza del amor pasional."

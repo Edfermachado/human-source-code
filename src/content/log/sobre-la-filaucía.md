@@ -1,6 +1,6 @@
 ---
 title: "Sobre la filaucía"
-date: 2026-03-08
+date: 2025-07-15
 tags: ["Filaucía", "Separatidad", "Erich Fromm"]
 draft: false
 summary: "Exploración teórica sobre el concepto de separatidad de Erich Fromm y la filaucía (amor propio) como la respuesta fundamental a la angustia existencial."

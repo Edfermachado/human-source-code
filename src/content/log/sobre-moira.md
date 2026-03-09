@@ -1,6 +1,6 @@
 ---
 title: "Sobre Moira"
-date: 2026-03-08
+date: 2025-08-29
 tags: ["Moira", "Locura", "Erasmo de Rotterdam"]
 draft: false
 summary: "Una presentación literaria de Moira (la Locura) y su papel indispensable como pilar para hacer llevadera la existencia humana y las relaciones sociales."
