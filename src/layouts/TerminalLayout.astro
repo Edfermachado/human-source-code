@@ -3,19 +3,20 @@
 import '../styles/global.css';
 import TerminalHeader from '../components/TerminalHeader.astro';
 import Footer from '../components/Footer.astro';
+import BaseHead from '../components/BaseHead.astro'; // 1. Importamos la nueva cabeza
 
-const { title = "repositorio_humano" } = Astro.props;
+// 2. Extraemos title y una descripción opcional
+const { title = "repositorio_humano", description } = Astro.props;
 ---
 <html lang="es">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{title}</title>
+    <BaseHead title={title} description={description} />
   </head>
   <body>
     <TerminalHeader />
     <main>
-      <slot /> 
+      <slot />
     </main>
-    <Footer /> </body>
+    <Footer />
+  </body>
 </html>
