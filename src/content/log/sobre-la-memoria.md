@@ -1,5 +1,8 @@
 ---
+title: "Sobre la memoria"
 date: 2026-03-11
+draft: false
+tags: ["refactorización", "filaucía", "estoicismo"]
 ---
 
 ## Sobre la memoria
@@ -10,4 +13,4 @@ Traer a mi memoria principal esos recuerdos me hace pensar que ciertamente pude 
 
 Una de las quejas que más me afligía era: «¿Qué sentido tiene aprender solo cuando pierdo?». Cada vez que pierdo, aprendo; pero lo aprendido no me devuelve lo perdido. Qué ironía tan tortuosa era esa revelación. Cada vez que veía a mis versiones pasadas, no podía hacer otra cosa que reprocharles su actuar. Pero hicieron lo mejor que pudieron en su momento. Lo sé porque perdieron, y yo aprendí. Aprendí que no puedo controlar lo externo. Aprendí que todo lo que llega a mi vida no necesariamente es para mí. Aprendí que el daño no es un castigo; castigo sería recibir el daño y no sacar beneficio de él. Y vaya que me beneficié del daño ajeno, y más aún, del autoinfligido. Ese dolor solo fue útil cuando aprendí a asimilarlo, a diseccionarlo, y no solo a sufrirlo.
 
-Mirando atrás, solo siento gratitud por cada lección. Todas forjaron mi nuevo yo. Qué liberador es pasear por los jardines del recuerdo sin azotarme por mi actuar, con la certeza absoluta de quien entiende que ya no repetirá los mismos errores.
+Mirando atrás, solo siento gratitud por cada lección. Todas forjaron mi nuevo yo. Qué liberador es pasear por los antiguos repositorios de mi memoria sin azotarme por mi actuar, con la certeza absoluta de quien entiende que ya no repetirá los mismos errores.
