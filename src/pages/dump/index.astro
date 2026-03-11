@@ -3,6 +3,7 @@
 import TerminalLayout from '../../layouts/TerminalLayout.astro';
 import { getCollection, render } from 'astro:content'; 
 
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const allDumps = await getCollection('dump');
 
 const sortedDumps = allDumps.sort((a, b) => {
@@ -14,7 +15,12 @@ const sortedDumps = allDumps.sort((a, b) => {
 const renderedDumps = await Promise.all(
   sortedDumps.map(async (dump) => {
     const { Content } = await render(dump);
-    return { data: dump.data, body: dump.body, Content }; // Extraemos el 'body' crudo para compartir
+    return { 
+      data: dump.data, 
+      body: dump.body, 
+      Content,
+      id: dump.id // <-- Reemplazamos slug por id
+    }; 
   })
 );
 ---
@@ -27,14 +33,17 @@ const renderedDumps = await Promise.all(
     </p>
 
     <div class="dump-stream">
-      {renderedDumps.map(({ data, body, Content }) => {
+      {renderedDumps.map(({ data, body, Content, id }) => {
         const dateStr = data.date ? data.date.toISOString().split('T')[0] : 'lost';
+        const dumpUrl = `${base}/dump/${id}`; // Ruta individual del volcado
         
         return (
           <article class="dump-entry">
             <div class="dump-meta">
-              <span class="timestamp">>> [timestamp: {dateStr}]</span>
-              <button class="export-btn" data-text={body}>[exportar]</button>
+              <a href={dumpUrl} class="timestamp-link">
+                <span class="timestamp">>> [timestamp: {dateStr}]</span>
+              </a>
+              <button class="export-btn" data-text={body} data-url={dumpUrl}>[exportar]</button>
             </div>
             <div class="dump-content">
               <Content />
@@ -91,12 +100,22 @@ const renderedDumps = await Promise.all(
     border-left: 2px solid var(--color-comentario);
   }
 
+  /* Estilos para el enlace de la fecha */
+  .timestamp-link {
+    text-decoration: none;
+    border-bottom: none;
+  }
+
   .timestamp {
     color: var(--color-comentario);
     font-size: 0.85rem;
+    transition: color 0.2s ease;
   }
 
-  /* Estilos del botón de exportar */
+  .timestamp-link:hover .timestamp {
+    color: var(--color-liquen);
+  }
+
   .export-btn {
     background: none;
     border: none;
@@ -126,7 +145,6 @@ const renderedDumps = await Promise.all(
     margin-bottom: 0;
   }
 
-  /* Estilos de la firma */
   .dump-footer {
     margin-top: 1.5rem;
     text-align: right;
@@ -142,31 +160,26 @@ const renderedDumps = await Promise.all(
 </style>
 
 <script>
-  // Script microscópico para manejar la exportación con formato de terminal
   document.addEventListener('DOMContentLoaded', () => {
     const exportBtns = document.querySelectorAll<HTMLElement>('.export-btn');
 
     exportBtns.forEach(btn => {
       btn.addEventListener('click', async () => {
-        // 1. Extraemos el texto crudo del atributo
         const rawText = btn.getAttribute('data-text') || '';
+        const dumpUrl = btn.getAttribute('data-url') || '';
         
-        // 2. Buscamos el timestamp visual que está al lado del botón
         const metaContenedor = btn.closest('.dump-meta');
         const timestampElemento = metaContenedor?.querySelector('.timestamp');
         const timestampTexto = timestampElemento ? timestampElemento.textContent : '>> [timestamp: lost]';
 
-        // 3. Ensamblamos el payload con doble salto de línea (\n\n) 
-        // para simular los márgenes y bloques de tu interfaz CSS
-        const payload = `${timestampTexto}\n\n${rawText.trim()}\n\n> Edfermachado\n${window.location.href}`;
+        // Reconstruimos la URL absoluta (dominio + ruta del dump)
+        const fullUrl = window.location.origin + dumpUrl;
 
-        // Flujo de exportación (nativa o portapapeles)
+        const payload = `${timestampTexto}\n\n${rawText.trim()}\n\n> Edfermachado\n${fullUrl}`;
+
         if (navigator.share) {
           try {
-            await navigator.share({
-              title: 'Volcado de memoria',
-              text: payload,
-            });
+            await navigator.share({ title: 'Volcado de memoria', text: payload });
           } catch (err) {
             console.log('Exportación cancelada por el usuario.');
           }
@@ -174,12 +187,9 @@ const renderedDumps = await Promise.all(
         else {
           try {
             await navigator.clipboard.writeText(payload);
-            
-            // Feedback visual en el botón
             const originalText = btn.textContent;
             btn.textContent = '[copiado]';
             btn.style.color = 'var(--color-ceniza)';
-            
             setTimeout(() => {
               btn.textContent = originalText;
               btn.style.color = 'var(--color-liquen)';

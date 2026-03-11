@@ -1,0 +1,162 @@
+---
+import TerminalLayout from '../../layouts/TerminalLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+// Le indicamos a Astro qué rutas estáticas debe construir
+export async function getStaticPaths() {
+  const dumpEntries = await getCollection('dump');
+  return dumpEntries.map(entry => ({
+    params: { slug: entry.id || entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+const dateStr = entry.data.date ? entry.data.date.toISOString().split('T')[0] : 'lost';
+const currentUrl = `${base}/dump/${entry.id}`;
+---
+
+<TerminalLayout title={`~/dump/${entry.id} - ◯ >_`}>
+  <section class="core-dump isolated-dump">
+    <div class="nav-back">
+      <a href={`${base}/dump`}>cd .. (volver a memoria volátil)</a>
+    </div>
+
+    <article class="dump-entry">
+      <div class="dump-meta">
+        <span class="timestamp">>> [timestamp: {dateStr}]</span>
+        <button class="export-btn" data-text={entry.body} data-url={currentUrl}>[exportar]</button>
+      </div>
+      <div class="dump-content">
+        <Content />
+      </div>
+      <div class="dump-footer">
+        <span class="footer-note">> Edfermachado</span>
+      </div>
+    </article>
+  </section>
+</TerminalLayout>
+
+<style>
+  /* Reutilizamos exactamente la misma estética del index */
+  .isolated-dump {
+    max-width: 600px;
+    margin: 0 auto;
+    padding-top: 2rem;
+  }
+
+  .nav-back {
+    margin-bottom: 3rem;
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+  }
+
+  .nav-back a {
+    color: var(--color-comentario);
+  }
+
+  .nav-back a:hover {
+    color: var(--color-liquen);
+  }
+
+  .dump-entry {
+    padding-bottom: 2rem;
+  }
+
+  .dump-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-mono);
+    margin-bottom: 1rem;
+    padding-left: 0.5rem;
+    border-left: 2px solid var(--color-liquen); /* Acento visual para la vista aislada */
+  }
+
+  .timestamp {
+    color: var(--color-ceniza);
+    font-size: 0.85rem;
+  }
+
+  .export-btn {
+    background: none;
+    border: none;
+    color: var(--color-liquen);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+
+  .export-btn:hover {
+    color: var(--color-ceniza);
+  }
+
+  .dump-content {
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--color-ceniza);
+    opacity: 0.9;
+  }
+
+  .dump-content :global(p) {
+    margin-bottom: 1rem;
+  }
+  .dump-content :global(p:last-child) {
+    margin-bottom: 0;
+  }
+
+  .dump-footer {
+    margin-top: 1.5rem;
+    text-align: right;
+  }
+
+  .footer-note {
+    font-family: var(--font-mono);
+    color: var(--color-comentario);
+    font-size: 0.9rem;
+    font-style: italic;
+    opacity: 0.7;
+  }
+</style>
+
+<script>
+  // El mismo script de exportación
+  document.addEventListener('DOMContentLoaded', () => {
+    const exportBtn = document.querySelector<HTMLElement>('.export-btn');
+    if (exportBtn) {
+      exportBtn.addEventListener('click', async () => {
+        const rawText = exportBtn.getAttribute('data-text') || '';
+        const dumpUrl = exportBtn.getAttribute('data-url') || '';
+        
+        const timestampElemento = document.querySelector('.timestamp');
+        const timestampTexto = timestampElemento ? timestampElemento.textContent : '>> [timestamp: lost]';
+
+        const fullUrl = window.location.origin + dumpUrl;
+        const payload = `${timestampTexto}\n\n${rawText.trim()}\n\n> Edfermachado\n${fullUrl}`;
+
+        if (navigator.share) {
+          try {
+            await navigator.share({ title: 'Volcado de memoria', text: payload });
+          } catch (err) {}
+        } else {
+          try {
+            await navigator.clipboard.writeText(payload);
+            const originalText = exportBtn.textContent;
+            exportBtn.textContent = '[copiado]';
+            exportBtn.style.color = 'var(--color-ceniza)';
+            setTimeout(() => {
+              exportBtn.textContent = originalText;
+              exportBtn.style.color = 'var(--color-liquen)';
+            }, 2000);
+          } catch (err) {}
+        }
+      });
+    }
+  });
+</script>
