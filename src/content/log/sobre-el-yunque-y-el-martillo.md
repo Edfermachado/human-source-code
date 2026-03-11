@@ -1,6 +1,6 @@
 ---
 title: "Sobre el yunque y el martillo"
-date: 2026-03-11
+date: 2026-03-10
 tags: ["Separatidad", "yunque y martillo"]
 draft: false
 summary: "Análisis sobre dominar o ser dominado"
