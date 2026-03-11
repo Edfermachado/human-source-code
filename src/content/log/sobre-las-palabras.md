@@ -1,7 +1,7 @@
 ---
 title: "Sobre las palabras"
 date: 2025-10-25
-tags: ["Literatura", "Filosofía", "Introspección", "Evolución"]
+tags: ["Literatura"]
 draft: false
 summary: "Un recorrido autobiográfico sobre cómo las palabras de distintos autores sirvieron como faro para forjar la identidad, el amor propio y el sentido de la vida."
 ---
