@@ -1,6 +1,6 @@
 ---
 title: "Sobre el dolor"
-date: 2026-03-08
+date: 2026-03-07
 tags: ["Dolor", "Separatidad", "Introspección"]
 draft: false
 summary: "Análisis autobiográfico sobre cómo el dolor físico actuó como un mecanismo de defensa y silencio mental para combatir la separatidad."
