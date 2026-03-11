@@ -8,9 +8,7 @@ summary: "Análisis autobiográfico sobre cómo el dolor físico actuó como un 
 
 ## Sobre el dolor
 
-Ya todos conocen, espero, lo que es la separatidad definida por Fromm. Daré por hecho que lo saben y, si no, es estrictamente necesario el conocimiento pleno de esta idea para el correcto entendimiento de las posteriores palabras.
-
-Ahora bien, una de las curas de la separatidad es, como bien definí en su momento, el amor propio; pero amarse a uno mismo es una tarea monumentalmente difícil, por no decir compleja, y de la que raramente uno es consciente de lo que implica. No definiré en este ensayo todo lo que conlleva el amor propio, pero un «parche», por llamarlo de alguna manera, para la separatidad antes de conocer el amor propio, para mí, no era más que el dolor.
+Una de las curas de la separatidad es, como bien definí en su momento, el amor propio; pero amarse a uno mismo es una tarea monumentalmente difícil, por no decir compleja, y de la que raramente uno es consciente de lo que implica. No definiré en este ensayo todo lo que conlleva el amor propio, pero un «parche», por llamarlo de alguna manera, para la separatidad antes de conocer el amor propio, para mí, no era más que el dolor.
 
 Antes de explicar el porqué del dolor, hay que diseccionar un poco lo que fue mi mente en su momento. Para alguien con una gran cantidad de consciencia en sí mismo, la vida no era más que un peso. Pensaba y pienso rápido, mucho más rápido de lo que me gustaría; naturalmente, rápido no quiere decir bien, ni correcto. De hecho, muchas de las decisiones que tomé son increíblemente cuestionables si se examinan con detenimiento, pero, irónicamente, todas esas decisiones forjaron mi hoy; así que, al sol de hoy, no hay tanto arrepentimiento, salvo algunas salvedades.
 
