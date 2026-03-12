@@ -2,13 +2,14 @@
 // src/pages/log/[slug].astro
 import { getCollection, render } from 'astro:content';
 import EssayLayout from '../../layouts/EssayLayout.astro';
+import { slugify } from '../../utils/slugify'; // 1. Importamos la herramienta
 
 export async function getStaticPaths() {
   const logEntries = await getCollection('log');
   
   return logEntries.map(entry => ({
-    // Usamos slug o id dependiendo de la versión interna de Astro
-    params: { slug: entry.slug || entry.id },
+    // 2. Forzamos la limpieza del ID físico del archivo (elimina acentos y espacios)
+    params: { slug: slugify(entry.id) },
     props: { entry },
   }));
 }
