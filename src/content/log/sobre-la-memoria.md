@@ -1,5 +1,5 @@
 ---
-title: "Sobre la memoria"
+title: "Sobre la memoría"
 date: 2026-03-11
 draft: false
 tags: ["refactorización", "filaucía", "estoicismo"]
