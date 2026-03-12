@@ -3,7 +3,6 @@ title: "Sobre la dominación y la sumisión"
 date: 2026-03-11
 tags: ["dominación/sumisión", "Tirano o Esclavo"]
 draft: false
-summary: "Dominar o ser dominado xd"
 ---
 
 ## Sobre la dominación y la sumisión
