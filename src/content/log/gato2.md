@@ -21,14 +21,3 @@ Prosiguiendo con la dominación: imagina entregarte a quien no es dueño de sí 
 
 Claramente hay matices para estas dos vías. El sumiso sin valor vivirá desahuciado, entregándose a todo aquel dispuesto a recibir su andrajosa correa. El dominante sin valor vivirá intentando poseer a cualquiera que caiga en sus manos, buscando llenar un vacío que, desde el principio, no puede llenarse desde afuera. Y en estas idas y venidas, puede que se encuentren un sumiso y un dominante que encajen como la contraparte perfecta del otro. Pero para ese punto estarán tan mermados, tan marcados, que reitero: la imagen no es encantadora. Más de uno habrá sido ya espectador o protagonista de tal toxicidad.
 
-Desde la separatidad, difícilmente nacerá algo sublime. Desde la separatidad, alguno tendrá que ceder para intentar curar las taras del otro. Una tarea que no le corresponde, porque ¿qué tan injusto tienes que ser para pedirle a alguien que te cure con amor, si tú eres incapaz de amarte a ti mismo?
-
-Es en el amor propio donde recae el verdadero valor del *yo*. Para tener una autoridad inquebrantable, tienes que poseer el dominio absoluto de tu ser. ¿Cómo le das calma a quien se entrega a ti, si tus propias paredes tiemblan? ¿Cómo osas inspirar entrega, si no estás seguro de tus pasos? No puedes ser digno de un poder ajeno si tú mismo no tienes poder.
-
-De la misma manera, alguien dueño de sí mismo y de sus facultades sabe lo que vale. Sabe, sobre todo, que no debe entregarse a cualquiera, porque eso le restaría valor. ¿Cómo puedes decir que vales, si cualquiera puede obtenerte? No puedes entregar un poder que no posees. Es en virtud del amor hacia ti mismo que el acto de entregar tu ser se vuelve algo sumamente sagrado.
-
-Desde la *Filaucía* y el valor intrínseco, el acto de dominar y someterse adquiere un matiz completamente nuevo. El cuadro del mendigo suplicando es reemplazado por un soberano dueño del imperio que es él mismo, arrodillándose voluntariamente ante la dama que juró salvaguardar esa entrega. Alguien que lo acoge fielmente en sus brazos, no desde el deseo o el ego de quien acapara a otro más para sí, sino desde la abundancia de quien entiende el inmenso valor de lo que está recibiendo.
-
-Este cuadro no puede más que parecerme sublime: entregar desde el valor y recibir desde la abundancia. Una escena digna de ser encarnada.
-
-El paroxismo ideal de la dominación y la sumisión no es más que el acuerdo tácito de una pareja que, en su individualidad, son personas perfectamente capaces y dueñas de sí mismas. Y en su unión, hallan la encantadora armonía de la entrega y el resguardo.
