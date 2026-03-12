@@ -2,17 +2,17 @@
 // src/pages/log/[slug].astro
 import { getCollection, render } from 'astro:content';
 import EssayLayout from '../../layouts/EssayLayout.astro';
-import { slugify } from '../../utils/slugify'; // 1. Importamos la herramienta
+import { slugify } from '../../utils/slugify';
 
 export async function getStaticPaths() {
   const logEntries = await getCollection('log');
   
   return logEntries.map(entry => {
-    // 1. Extirpamos la extensión del archivo (.md o .mdx)
+    // Amputamos el .md
     const rawName = entry.id.replace(/\.(md|mdx)$/, '');
     
     return {
-      // 2. Ahora sí esterilizamos el nombre limpio
+      // Pasamos el nombre por el esterilizador de acentos
       params: { slug: slugify(rawName) },
       props: { entry },
     };
@@ -20,7 +20,6 @@ export async function getStaticPaths() {
 }
 
 const { entry } = Astro.props;
-// Usamos el motor moderno de renderizado
 const { Content } = await render(entry);
 ---
 

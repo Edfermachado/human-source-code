@@ -32,18 +32,21 @@ const publishedLogs = allLogs
     <div class="commit-list">
       {
         publishedLogs.map((log) => {
-          // Si hay fecha, la formatea; si no, escupe 'lost'
+          // 1. Formateo seguro de fecha
           const dateStr = log.data.date
             ? log.data.date.toISOString().split("T")[0]
             : "lost";
 
-          // 3. Aislamos la limpieza del ID antes de inyectarla al HTML
+          // 2. Extirpamos extensión y esterilizamos acentos
           const rawName = log.id.replace(/\.(md|mdx)$/, "");
           const safeSlug = slugify(rawName);
 
           return (
             <article class="commit-entry">
-              <time datetime={log.data.date?.toISOString()} class="commit-date">
+              <time
+                datetime={log.data.date ? log.data.date.toISOString() : ""}
+                class="commit-date"
+              >
                 [{dateStr}]
               </time>
               <a href={`${base}/log/${safeSlug}`} class="commit-message">
