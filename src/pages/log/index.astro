@@ -2,15 +2,20 @@
 // src/pages/log/index.astro
 import TerminalLayout from "../../layouts/TerminalLayout.astro";
 import { getCollection } from "astro:content";
-import { slugify } from "../../utils/slugify";
+
 const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+
 // 1. Consultar la colección completa de ensayos
 const allLogs = await getCollection("log");
 
-// 2. Filtrar borradores (si los hay) y ordenar cronológicamente (más reciente primero)
+// 2. Filtrar borradores y ordenar cronológicamente
 const publishedLogs = allLogs
   .filter((log) => !log.data.draft)
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+  .sort((a, b) => {
+    const dateA = a.data.date ? a.data.date.valueOf() : 0;
+    const dateB = b.data.date ? b.data.date.valueOf() : 0;
+    return dateB - dateA;
+  });
 ---
 
 <TerminalLayout title="~/log - ◯ >_">
@@ -23,15 +28,18 @@ const publishedLogs = allLogs
     <div class="commit-list">
       {
         publishedLogs.map((log) => {
-          // Formatear fecha a YYYY-MM-DD
-          const dateStr = log.data.date.toISOString().split("T")[0];
+          // Formateo seguro de fecha
+          const dateStr = log.data.date ? log.data.date.toISOString().split("T")[0] : 'lost';
+          
+          // Estrategia directa: ID físico sin extensión
+          const cleanSlug = log.id.replace(/\.(md|mdx)$/, '');
 
           return (
             <article class="commit-entry">
-              <time datetime={log.data.date.toISOString()} class="commit-date">
+              <time datetime={log.data.date ? log.data.date.toISOString() : ''} class="commit-date">
                 [{dateStr}]
               </time>
-              <a href={`${base}/log/${log.slug}`} class="commit-message">
+              <a href={`${base}/log/${cleanSlug}`} class="commit-message">
                 {log.data.title}
               </a>
               <div class="commit-tags">

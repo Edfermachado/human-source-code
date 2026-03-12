@@ -6,11 +6,15 @@ import EssayLayout from '../../layouts/EssayLayout.astro';
 export async function getStaticPaths() {
   const logEntries = await getCollection('log');
   
-  return logEntries.map(entry => ({
-    // Usamos slug o id dependiendo de la versión interna de Astro
-    params: { slug: entry.slug || entry.id },
-    props: { entry },
-  }));
+  return logEntries.map(entry => {
+    // Estrategia directa: tomamos el ID físico y le quitamos la extensión
+    const cleanSlug = entry.id.replace(/\.(md|mdx)$/, '');
+    
+    return {
+      params: { slug: cleanSlug },
+      props: { entry },
+    };
+  });
 }
 
 const { entry } = Astro.props;
