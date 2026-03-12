@@ -7,11 +7,16 @@ import { slugify } from '../../utils/slugify'; // 1. Importamos la herramienta
 export async function getStaticPaths() {
   const logEntries = await getCollection('log');
   
-  return logEntries.map(entry => ({
-    // 2. Forzamos la limpieza del ID físico del archivo (elimina acentos y espacios)
-    params: { slug: slugify(entry.id) },
-    props: { entry },
-  }));
+  return logEntries.map(entry => {
+    // 1. Extirpamos la extensión del archivo (.md o .mdx)
+    const rawName = entry.id.replace(/\.(md|mdx)$/, '');
+    
+    return {
+      // 2. Ahora sí esterilizamos el nombre limpio
+      params: { slug: slugify(rawName) },
+      props: { entry },
+    };
+  });
 }
 
 const { entry } = Astro.props;

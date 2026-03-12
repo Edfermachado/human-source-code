@@ -38,7 +38,8 @@ const publishedLogs = allLogs
             : "lost";
 
           // 3. Aislamos la limpieza del ID antes de inyectarla al HTML
-          const safeSlug = slugify(log.id);
+          const rawName = log.id.replace(/\.(md|mdx)$/, "");
+          const safeSlug = slugify(rawName);
 
           return (
             <article class="commit-entry">
