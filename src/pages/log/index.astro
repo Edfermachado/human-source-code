@@ -2,24 +2,15 @@
 // src/pages/log/index.astro
 import TerminalLayout from "../../layouts/TerminalLayout.astro";
 import { getCollection } from "astro:content";
-import { slugify } from "../../utils/slugify"; // Ya lo tenías importado, excelente
-
+import { slugify } from "../../utils/slugify";
 const base = import.meta.env.BASE_URL.replace(/\/$/, "");
-
 // 1. Consultar la colección completa de ensayos
 const allLogs = await getCollection("log");
 
-// 2. Filtrar borradores y ordenar cronológicamente
+// 2. Filtrar borradores (si los hay) y ordenar cronológicamente (más reciente primero)
 const publishedLogs = allLogs
   .filter((log) => !log.data.draft)
-  .sort((a, b) => {
-    // Si la fecha existe, extraemos su valor; si es nula, le asignamos 0.
-    const dateA = a.data.date ? a.data.date.valueOf() : 0;
-    const dateB = b.data.date ? b.data.date.valueOf() : 0;
-
-    // Orden descendente (del más nuevo al más viejo)
-    return dateB - dateA;
-  });
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
 
 <TerminalLayout title="~/log - ◯ >_">
@@ -32,24 +23,15 @@ const publishedLogs = allLogs
     <div class="commit-list">
       {
         publishedLogs.map((log) => {
-          // 1. Formateo seguro de fecha
-          const dateStr = log.data.date
-            ? log.data.date.toISOString().split("T")[0]
-            : "lost";
-
-          // 2. Extirpamos extensión y esterilizamos acentos
-          const rawName = log.id.replace(/\.(md|mdx)$/, "");
-          const safeSlug = slugify(rawName);
+          // Formatear fecha a YYYY-MM-DD
+          const dateStr = log.data.date.toISOString().split("T")[0];
 
           return (
             <article class="commit-entry">
-              <time
-                datetime={log.data.date ? log.data.date.toISOString() : ""}
-                class="commit-date"
-              >
+              <time datetime={log.data.date.toISOString()} class="commit-date">
                 [{dateStr}]
               </time>
-              <a href={`${base}/log/${safeSlug}`} class="commit-message">
+              <a href={`${base}/log/${log.slug}`} class="commit-message">
                 {log.data.title}
               </a>
               <div class="commit-tags">
@@ -64,6 +46,7 @@ const publishedLogs = allLogs
     </div>
   </section>
 </TerminalLayout>
+
 <style>
   .log-archive h1 {
     color: var(--color-ceniza);

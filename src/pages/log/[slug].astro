@@ -2,24 +2,19 @@
 // src/pages/log/[slug].astro
 import { getCollection, render } from 'astro:content';
 import EssayLayout from '../../layouts/EssayLayout.astro';
-import { slugify } from '../../utils/slugify';
 
 export async function getStaticPaths() {
   const logEntries = await getCollection('log');
   
-  return logEntries.map(entry => {
-    // Amputamos el .md
-    const rawName = entry.id.replace(/\.(md|mdx)$/, '');
-    
-    return {
-      // Pasamos el nombre por el esterilizador de acentos
-      params: { slug: slugify(rawName) },
-      props: { entry },
-    };
-  });
+  return logEntries.map(entry => ({
+    // Usamos slug o id dependiendo de la versión interna de Astro
+    params: { slug: entry.slug || entry.id },
+    props: { entry },
+  }));
 }
 
 const { entry } = Astro.props;
+// Usamos el motor moderno de renderizado
 const { Content } = await render(entry);
 ---
 
