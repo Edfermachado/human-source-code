@@ -189,7 +189,6 @@ const formattedDate = date ? new Date(date).toISOString().split('T')[0] : 'lost'
 <script>
   // El script de exportación para los ensayos
   document.addEventListener('DOMContentLoaded', () => {
-    // Forzamos el tipado HTMLElement como en los dump para evitar errores
     const exportBtn = document.querySelector<HTMLElement>('.export-btn');
 
     if (exportBtn) {
@@ -197,8 +196,8 @@ const formattedDate = date ? new Date(date).toISOString().split('T')[0] : 'lost'
         const title = exportBtn.getAttribute('data-title') || 'Ensayo';
         const rawText = exportBtn.getAttribute('data-text') || '';
         
-        // Formateamos el payload de la disección
-        const payload = `>> [LOG: ${title.toUpperCase()}]\n\n${rawText.trim()}\n\n> Edfermachado\n${window.location.href}`;
+        // Formateamos el payload: Añadimos \n\n antes de window.location.href para forzar a WhatsApp a leer el hipervínculo
+        const payload = `>> [LOG: ${title.toUpperCase()}]\n\n${rawText.trim()}\n\n> Edfermachado\n\n${window.location.href}`;
 
         if (navigator.share) {
           try {
