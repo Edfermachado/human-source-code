@@ -8,7 +8,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 export async function getStaticPaths() {
   const dumpEntries = await getCollection('dump');
   return dumpEntries.map(entry => ({
-    params: { slug: entry.id || entry.id },
+    params: { slug: entry.id },
     props: { entry },
   }));
 }
